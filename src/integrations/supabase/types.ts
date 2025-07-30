@@ -255,6 +255,10 @@ export type Database = {
         Args: { user_email: string }
         Returns: string
       }
+      get_or_create_organization_by_company_name: {
+        Args: { company_name_input: string }
+        Returns: string
+      }
       get_user_license: {
         Args: { _user_id: string }
         Returns: string

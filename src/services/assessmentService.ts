@@ -18,13 +18,15 @@ export const assessmentService = {
     userName?: string;
   }): Promise<{ success: boolean; submissionId?: string; error?: string }> {
     try {
-      // Get or create organization if user has email
+      // Get or create organization based on company name from assessment data
       let organizationId = null;
-      if (data.userEmail) {
+      const companyName = data.formData['metadata-respondent-info']?.['company-name'];
+      
+      if (companyName && typeof companyName === 'string' && companyName.trim()) {
         const { data: orgId, error: orgError } = await supabase
-          .rpc('get_or_create_organization', { user_email: data.userEmail });
+          .rpc('get_or_create_organization_by_company_name', { company_name_input: companyName.trim() });
         
-        if (!orgError) {
+        if (!orgError && orgId) {
           organizationId = orgId;
         }
       }
