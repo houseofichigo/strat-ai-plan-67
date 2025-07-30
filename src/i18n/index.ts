@@ -83,68 +83,6 @@ const resources = {
       }
     }
   },
-  es: {
-    translation: {
-      nav: {
-        dashboard: 'Panel de Control',
-        assessment: 'Evaluación',
-        workflows: 'Flujos de Trabajo',
-        agents: 'Agentes IA',
-        solutions: 'Agentes y Flujos',
-        useCases: 'Casos de Uso',
-        training: 'Capacitación',
-        resources: 'Recursos',
-        playground: 'Área de Pruebas',
-        reports: 'Reportes',
-        roadmap: 'Hoja de Ruta',
-        admin: 'Administrador',
-        services: 'Servicios',
-        gdpr: 'GDPR',
-      },
-      onboarding: {
-        welcome: 'Bienvenido a la Plataforma de Preparación para IA',
-        step1Title: 'Realiza tu Evaluación',
-        step1Content: 'Comienza completando la evaluación de preparación para IA para entender tus capacidades actuales.',
-        step2Title: 'Revisa tus Resultados',
-        step2Content: 'Analiza tus puntuaciones de preparación e identifica áreas clave de mejora.',
-        step3Title: 'Construye tu Plan de Acción',
-        step3Content: 'Crea una hoja de ruta personalizada basada en los resultados de tu evaluación.',
-        skip: 'Omitir Tour',
-        next: 'Siguiente',
-        back: 'Atrás',
-        finish: 'Comenzar',
-      },
-      progress: {
-        notStarted: 'No Iniciado',
-        inProgress: 'En Progreso',
-        completed: 'Completado',
-        overall: 'Progreso General',
-        assessment: 'Progreso de Evaluación',
-        training: 'Progreso de Capacitación',
-        workflows: 'Progreso de Flujos',
-      },
-      notifications: {
-        title: 'Notificaciones',
-        markAllRead: 'Marcar Todo como Leído',
-        noNotifications: 'No hay notificaciones nuevas',
-        compliance: 'Actualización de Cumplimiento',
-        resources: 'Nuevos Recursos',
-        completion: 'Recordatorio de Finalización',
-        general: 'General',
-      },
-      common: {
-        save: 'Guardar',
-        cancel: 'Cancelar',
-        edit: 'Editar',
-        delete: 'Eliminar',
-        loading: 'Cargando...',
-        error: 'Error',
-        success: 'Éxito',
-        warning: 'Advertencia',
-        info: 'Información',
-      }
-    }
-  },
   fr: {
     translation: {
       // Navigation
@@ -166,9 +104,9 @@ const resources = {
       },
       // Assessment
       assessment: {
-        title: "Évaluation de la Préparation à l'IA",
+        title: "Évaluation de la maturité Data & IA",
         subtitle: 'Découvrez la maturité de votre organisation en matière d\'IA et obtenez des recommandations personnalisées',
-        welcome: 'Bienvenue dans notre évaluation de préparation à l\'IA',
+        welcome: 'Bienvenue dans notre évaluation de maturité Data & IA',
         description: 'Cette évaluation complète analysera les capacités de votre organisation en matière d\'IA et fournira des recommandations sur mesure.',
         getStarted: 'Commencer l\'Évaluation',
         progress: 'Progression',
@@ -190,15 +128,24 @@ const resources = {
         draftSaved: 'Brouillon sauvegardé automatiquement',
         draftRestored: 'Votre brouillon a été restauré',
         sections: {
-          'organizational-readiness': 'Préparation Organisationnelle',
-          'data-infrastructure': 'Infrastructure des Données',
-          'technology-capabilities': 'Capacités Technologiques',
-          'ai-strategy': 'Stratégie IA',
-          'talent-resources': 'Talents et Ressources',
-          'governance-ethics': 'Gouvernance et Éthique',
-          'use-cases': 'Cas d\'Usage',
-          'investment-roi': 'Investissement et ROI',
-          'metadata-respondent-info': 'Informations du Répondant'
+          'business-strategy': 'Stratégie métier et préparation des cas d\'usage',
+          'financial-readiness': 'Capacité financière et préparation stratégique',
+          'data-governance': 'Maturité des données et gouvernance',
+          'technical-infrastructure': 'Infrastructure technique',
+          'automation-agents': 'Automatisation et agents IA',
+          'team-culture': 'Culture IA de l\'équipe et développement',
+          'ethics-experimentation': 'Éthique et expérimentation',
+          'metadata': 'Métadonnées et informations du répondant'
+        },
+        sectionDescriptions: {
+          'business-strategy': 'Cette section évalue si votre organisation possède une compréhension claire de la façon dont l\'IA peut soutenir la croissance de l\'entreprise, l\'efficacité opérationnelle ou l\'impact client.',
+          'financial-readiness': 'Cette section évalue la capacité actuelle et future de votre organisation à financer les initiatives data et IA.',
+          'data-governance': 'Cette section évalue l\'architecture data de votre organisation, les contrôles qualité, les pratiques de gouvernance et la préparation en matière de confidentialité.',
+          'technical-infrastructure': 'Cette section évalue la robustesse de votre stack technologique — comment les données circulent entre les outils, comment les intégrations sont maintenues.',
+          'automation-agents': 'Cette section évalue le niveau d\'automatisation de vos opérations, identifie les tâches et workflows à forte friction.',
+          'team-culture': 'Cette section évalue la familiarité de votre équipe avec les outils IA, la répartition des responsabilités IA.',
+          'ethics-experimentation': 'Cette section évalue l\'approche de votre organisation pour la gestion des risques IA, les pratiques de déploiement éthique.',
+          'metadata': 'Cette section collecte les informations nécessaires pour personnaliser votre rapport de maturité IA.'
         }
       },
       // Onboarding

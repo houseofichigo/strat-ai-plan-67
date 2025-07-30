@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { FormData } from '@/data/assessmentData';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslation } from 'react-i18next';
+import { LanguageSelector } from '@/components/language/LanguageSelector';
 interface ThankYouProps {
   formData?: FormData;
 }
@@ -35,6 +36,11 @@ export default function ThankYou({
       </div>
       
       <div className="container mx-auto px-4 py-8 max-w-4xl">
+        {/* Language Selector */}
+        <div className="flex justify-end mb-4">
+          <LanguageSelector />
+        </div>
+        
         {/* Hero Section */}
         <div className="text-center mb-8 animate-fade-in">
           <div className="flex justify-center mb-6">

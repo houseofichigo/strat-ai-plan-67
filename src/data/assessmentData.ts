@@ -29,9 +29,9 @@ export const assessmentSections: AssessmentSectionData[] = [
     id: 'business-strategy',
     title: 'Business Strategy & Use-Case Readiness',
     description: 'Evaluates how clearly your business sees the opportunity for AI, how well near-term use-cases are defined, and how these initiatives align with broader business goals.',
-    detailedDescription: 'This section helps us understand where you are in your AI journey - from initial exploration to having concrete, prioritized use cases that align with your business objectives.',
+    detailedDescription: 'This section evaluates if your organization has a clear understanding of how AI can support business growth, operational efficiency, or customer impact. It checks alignment between AI initiatives and business strategic objectives, business model maturity, and the ability to execute defined use cases with clear ROI vision.',
     weight: '10%',
-    estimatedTime: '5 minutes',
+    estimatedTime: '5–7 minutes',
     questions: [
       {
         id: 'identified-problems',
