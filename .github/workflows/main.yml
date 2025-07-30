@@ -1,12 +1,15 @@
+# .github/workflows/main.yml
 name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - lovable    # ← add this if your bot pushes here
 
 permissions:
   contents: write
-  pages: write
+  pages:    write
   id-token: write
 
 jobs:
@@ -27,11 +30,13 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Add custom domain CNAME file
-        run: echo wwww.ai.housofichigo.com > dist/CNAME
+      - name: Generate CNAME
+        run: |
+          echo "www.ai.houseofichigo.com" > dist/CNAME
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          keep_files: true
