@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Crown, Users, BarChart3, Settings, RefreshCw, FileText, Download, TrendingUp, Clock, AlertTriangle } from 'lucide-react';
+import { Crown, Users, BarChart3, Settings, RefreshCw, FileText, Download, TrendingUp, Clock, AlertTriangle, TestTube } from 'lucide-react';
 import { assessmentService, AssessmentSubmission } from '@/services/assessmentService';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -60,6 +60,33 @@ export default function Admin() {
       });
     } finally {
       setAnalyticsLoading(false);
+    }
+  };
+
+  const handleTestSubmission = async () => {
+    try {
+      const result = await assessmentService.testSubmission();
+      if (result.success) {
+        toast({
+          title: 'Test Submission Successful',
+          description: `Test data submitted successfully. ID: ${result.submissionId}`,
+        });
+        // Refresh data after test submission
+        fetchSubmissions();
+        fetchAnalytics();
+      } else {
+        toast({
+          title: 'Test Submission Failed',
+          description: result.error || 'Failed to submit test data',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Test Submission Error',
+        description: 'An unexpected error occurred',
+        variant: 'destructive',
+      });
     }
   };
 
@@ -123,12 +150,22 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
-            <Crown className="w-8 h-8 text-primary" />
-            Admin Dashboard
-          </h1>
-          <p className="text-muted-foreground mt-2">Manage your AI assessment platform</p>
+        <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
+              <Crown className="w-8 h-8 text-primary" />
+              Admin Dashboard
+            </h1>
+            <p className="text-muted-foreground mt-2">Manage your AI assessment platform</p>
+          </div>
+          <Button
+            onClick={handleTestSubmission}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <TestTube className="w-4 h-4" />
+            Test Submission
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

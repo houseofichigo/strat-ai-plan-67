@@ -5,7 +5,7 @@ import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AssessmentSection } from '@/components/assessment/AssessmentSection';
 import { AssessmentResults } from '@/components/assessment/AssessmentResults';
-import { ChevronRight, ChevronLeft, TestTube, AlertCircle, Save, CheckCircle } from 'lucide-react';
+import { ChevronRight, ChevronLeft, AlertCircle, Save, CheckCircle } from 'lucide-react';
 import { assessmentSections } from '@/data/assessmentData';
 import { useAssessmentForm } from '@/hooks/useAssessmentForm';
 import { assessmentService } from '@/services/assessmentService';
@@ -139,74 +139,46 @@ const Assessment = () => {
     }
   };
 
-  const handleTestSubmission = async () => {
-    try {
-      const result = await assessmentService.testSubmission();
-      if (result.success) {
-        toast({
-          title: 'Test Submission Successful',
-          description: `Test data submitted successfully. ID: ${result.submissionId}`,
-        });
-      } else {
-        toast({
-          title: 'Test Submission Failed',
-          description: result.error || 'Failed to submit test data',
-          variant: 'destructive',
-        });
-      }
-    } catch (error) {
-      toast({
-        title: 'Test Submission Error',
-        description: 'An unexpected error occurred',
-        variant: 'destructive',
-      });
-    }
-  };
-
   const handlePrevious = () => {
     setShowValidationAlert(false);
     if (currentSection > 0) {
+      // Track section completion when going back
+      const section = assessmentSections[currentSection];
+      const timeSpent = Date.now() - sectionStartTime;
+      analyticsService.trackSectionComplete(section.id, section.title, Math.floor(timeSpent / 1000));
+      
       setCurrentSection(currentSection - 1);
     }
   };
 
-  // Remove the showResults check as we now navigate to thank-you page
 
   const currentSectionData = assessmentSections[currentSection];
   const hasErrors = Object.keys(errors).some(key => key.startsWith(currentSectionData.id));
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <div className="container mx-auto px-4 py-6 sm:py-8 max-w-4xl">
         {/* Progress Header */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-4">
-              {/* House of Ichigo Logo - Exact Match */}
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+              {/* House of Ichigo Logo - Responsive */}
               <div className="flex items-center gap-3">
                 <img 
                   src="/lovable-uploads/e223ce0a-fab7-4554-81e8-d9262d3c40fd.png" 
                   alt="House of Ichigo Logo" 
-                  className="h-12 w-auto object-contain"
+                  className="h-10 sm:h-12 w-auto object-contain"
                 />
               </div>
-              <div className="h-8 w-px bg-border mx-2"></div>
-              <h1 className="text-3xl font-bold text-foreground">AI Maturity Assessment</h1>
+              <div className="hidden sm:block h-8 w-px bg-border mx-2"></div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">AI Maturity Assessment</h1>
             </div>
-            <div className="flex items-center gap-4">
-              <Button
-                onClick={handleTestSubmission}
-                variant="outline"
-                size="sm"
-              >
-                <TestTube className="w-4 h-4 mr-2" />
-                Test Submission
-              </Button>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
                 {isAutoSaving && (
                   <div className="flex items-center gap-1">
                     <Save className="w-3 h-3 animate-pulse" />
-                    <span>Saving...</span>
+                    <span className="hidden sm:inline">Saving...</span>
                   </div>
                 )}
                 <span>Section {currentSection + 1} of {totalSections}</span>
@@ -216,12 +188,12 @@ const Assessment = () => {
           
           <Progress value={progressInfo.percentage} className="h-3" />
           
-          <div className="flex justify-between mt-2 text-xs text-muted-foreground">
+          <div className="flex flex-col sm:flex-row justify-between mt-2 text-xs text-muted-foreground gap-1">
             <span>
               Progress: {Math.round(progressInfo.percentage)}% 
               ({progressInfo.answered} of {progressInfo.total} questions)
             </span>
-            <span>Est. {currentSectionData.estimatedTime} remaining</span>
+            <span className="hidden sm:inline">Est. {currentSectionData.estimatedTime} remaining</span>
           </div>
         </div>
 
@@ -238,35 +210,39 @@ const Assessment = () => {
         )}
 
         {/* Current Section */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <span className="bg-primary text-primary-foreground rounded-full w-8 h-8 flex items-center justify-center text-sm font-semibold">
-                {currentSection + 1}
-              </span>
-              {currentSectionData.title}
-              <span className="text-sm font-normal text-muted-foreground ml-2">
-                ({currentSectionData.weight})
-              </span>
-              {sectionProgress.answered === sectionProgress.total && (
-                <CheckCircle className="w-5 h-5 text-green-600 ml-auto" />
-              )}
+        <Card className="mb-6 sm:mb-8">
+          <CardHeader className="pb-3 sm:pb-6">
+            <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-2">
+              <div className="flex items-center gap-2">
+                <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center text-xs sm:text-sm font-semibold">
+                  {currentSection + 1}
+                </span>
+                <span className="text-lg sm:text-xl">{currentSectionData.title}</span>
+              </div>
+              <div className="flex items-center gap-2 mt-1 sm:mt-0">
+                <span className="text-xs sm:text-sm font-normal text-muted-foreground">
+                  ({currentSectionData.weight})
+                </span>
+                {sectionProgress.answered === sectionProgress.total && (
+                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
+                )}
+              </div>
             </CardTitle>
-            <div className="mt-4 space-y-2">
-              <p className="text-muted-foreground">
+            <div className="mt-3 sm:mt-4 space-y-2">
+              <p className="text-sm sm:text-base text-muted-foreground">
                 {currentSectionData.description}
               </p>
               {currentSectionData.detailedDescription && (
-                <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-lg border">
+                <p className="text-xs sm:text-sm text-muted-foreground bg-muted/50 p-3 rounded-lg border">
                   💡 {currentSectionData.detailedDescription}
                 </p>
               )}
-              <div className="flex items-center gap-2 text-sm">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-xs sm:text-sm">
                 <span className="text-muted-foreground">
                   Section Progress: {sectionProgress.answered} of {sectionProgress.total} questions completed
                 </span>
                 {sectionProgress.answered === sectionProgress.total && (
-                  <CheckCircle className="w-4 h-4 text-green-600" />
+                  <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
                 )}
               </div>
             </div>
@@ -282,19 +258,19 @@ const Assessment = () => {
           </CardContent>
         </Card>
 
-        {/* Navigation */}
-        <div className="flex justify-between items-center sticky bottom-4 bg-background/95 backdrop-blur-sm p-4 rounded-lg border shadow-lg">
+        {/* Navigation - Enhanced Mobile */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sticky bottom-4 bg-background/95 backdrop-blur-sm p-3 sm:p-4 rounded-lg border shadow-lg">
           <Button
             variant="outline"
             onClick={handlePrevious}
             disabled={currentSection === 0}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 w-full sm:w-auto order-2 sm:order-1"
           >
             <ChevronLeft className="w-4 h-4" />
             Previous
           </Button>
           
-          <div className="flex gap-2">
+          <div className="flex gap-1 sm:gap-2 order-1 sm:order-2">
             {assessmentSections.map((_, index) => {
               const sectionProgress = getSectionProgress(index);
               const isComplete = sectionProgress.answered === sectionProgress.total;
@@ -302,9 +278,9 @@ const Assessment = () => {
               return (
                 <div
                   key={index}
-                  className={`w-3 h-3 rounded-full transition-colors ${
+                  className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-colors ${
                     index === currentSection
-                      ? 'bg-primary ring-2 ring-primary/30'
+                      ? 'bg-primary ring-1 sm:ring-2 ring-primary/30'
                       : isComplete
                       ? 'bg-green-600'
                       : index < currentSection
@@ -319,7 +295,7 @@ const Assessment = () => {
           
           <Button
             onClick={handleNext}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 w-full sm:w-auto order-3"
             variant={currentSection === totalSections - 1 ? "default" : "default"}
           >
             {currentSection === totalSections - 1 ? 'Complete Assessment' : 'Next'}
