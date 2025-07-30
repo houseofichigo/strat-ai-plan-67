@@ -534,7 +534,9 @@ export const assessmentSections: AssessmentSectionData[] = [
       {
         id: 'data-ownership',
         text: 'Who is accountable for maintaining data quality and managing access?',
+        textFr: 'Qui est responsable du maintien de la qualité des données et de la gestion des accès ?',
         description: 'Clear data ownership ensures accountability and proper maintenance of your AI data pipeline.',
+        descriptionFr: 'Une propriété de données claire garantit la responsabilité et la maintenance appropriée de votre pipeline de données IA.',
         type: 'radio',
         required: true,
         options: [
@@ -542,12 +544,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Tech / engineering team',
           'Department leads share responsibility',
           'Dedicated data steward / team'
+        ],
+        optionsFr: [
+          'Aucun propriétaire clair',
+          'Équipe technique / ingénierie',
+          'Les responsables de département partagent la responsabilité',
+          'Gestionnaire de données / équipe dédiée'
         ]
       },
       {
         id: 'data-confidence',
         text: 'How confident are you in the quality and up-to-dateness of your data?',
+        textFr: 'À quel point êtes-vous confiant dans la qualité et l\'actualité de vos données ?',
         description: 'Data quality directly impacts AI model accuracy and business decision reliability.',
+        descriptionFr: 'La qualité des données impacte directement la précision des modèles IA et la fiabilité des décisions métier.',
         type: 'radio',
         required: true,
         options: [
@@ -555,12 +565,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Moderate – spot-checks only',
           'Good – basic validation rules in place',
           'High – automated tests and alerts'
+        ],
+        optionsFr: [
+          'Faible – divergences fréquentes',
+          'Modérée – vérifications ponctuelles uniquement',
+          'Bonne – règles de validation de base en place',
+          'Élevée – tests automatisés et alertes'
         ]
       },
       {
         id: 'security-controls',
         text: 'What protective measures do you have in place for data?',
+        textFr: 'Quelles mesures de protection avez-vous en place pour les données ?',
         description: 'Security controls are essential for protecting sensitive data used in AI systems.',
+        descriptionFr: 'Les contrôles de sécurité sont essentiels pour protéger les données sensibles utilisées dans les systèmes IA.',
         type: 'multiselect',
         required: true,
         options: [
@@ -571,12 +589,23 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Data-loss prevention tools',
           'Tokenization or anonymization',
           'None'
+        ],
+        optionsFr: [
+          'Chiffrement au repos',
+          'Chiffrement en transit (TLS)',
+          'Contrôle d\'accès basé sur les rôles',
+          'Journaux d\'audit / suivi des accès',
+          'Outils de prévention de perte de données',
+          'Tokenisation ou anonymisation',
+          'Aucune'
         ]
       },
       {
         id: 'pii-handling',
         text: 'Do you process personal or sensitive data, and if so, how do you manage it?',
+        textFr: 'Traitez-vous des données personnelles ou sensibles, et si oui, comment les gérez-vous ?',
         description: 'Proper PII handling is crucial for compliance and ethical AI deployment.',
+        descriptionFr: 'La gestion appropriée des DPI est cruciale pour la conformité et le déploiement éthique de l\'IA.',
         type: 'radio',
         required: true,
         options: [
@@ -584,12 +613,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Yes, but no formal process',
           'Yes, with documented GDPR/CCPA compliance',
           'Not sure / reviewing'
+        ],
+        optionsFr: [
+          'Aucune DPI traitée',
+          'Oui, mais aucun processus formel',
+          'Oui, avec conformité RGPD/CCPA documentée',
+          'Pas sûr / en révision'
         ]
       },
       {
         id: 'audit-readiness',
         text: 'Can you provide records of how AI systems use personal data in compliance with GDPR or AI Act?',
+        textFr: 'Pouvez-vous fournir des enregistrements sur la façon dont les systèmes IA utilisent les données personnelles en conformité avec le RGPD ou l\'AI Act ?',
         description: 'Audit readiness ensures you can demonstrate compliance and explain AI decision-making processes.',
+        descriptionFr: 'La préparation aux audits garantit que vous pouvez démontrer la conformité et expliquer les processus de prise de décision IA.',
         type: 'radio',
         required: true,
         options: [
@@ -597,12 +634,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Partial logs or model usage documentation',
           'Logs available for critical use-cases',
           'Complete audit trail and explainability system in place'
+        ],
+        optionsFr: [
+          'Aucun suivi en place',
+          'Journaux partiels ou documentation d\'utilisation du modèle',
+          'Journaux disponibles pour les cas d\'usage critiques',
+          'Piste d\'audit complète et système d\'explicabilité en place'
         ]
       },
       {
         id: 'data-preprocessing-consistency',
         text: 'How consistently are your data sets pre-processed and cleaned to be AI-ready?',
+        textFr: 'À quel point vos jeux de données sont-ils prétraités et nettoyés de manière cohérente pour être prêts pour l\'IA ?',
         description: 'Consistent data preprocessing ensures reliable AI model performance and reduces time-to-deployment for new AI initiatives.',
+        descriptionFr: 'Le prétraitement cohérent des données garantit une performance fiable des modèles IA et réduit le temps de déploiement pour les nouvelles initiatives IA.',
         type: 'radio',
         required: true,
         options: [
@@ -610,12 +655,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Sometimes, depending on project',
           'Mostly pre-processed and AI-ready',
           'Fully standardized and automated'
+        ],
+        optionsFr: [
+          'Rarement prétraité',
+          'Parfois, selon le projet',
+          'Principalement prétraité et prêt pour l\'IA',
+          'Entièrement standardisé et automatisé'
         ]
       },
       {
         id: 'analytics-tools-integration',
         text: 'How advanced and integrated are your analytics tools for AI-related data and projects?',
+        textFr: 'À quel point vos outils d\'analyse sont-ils avancés et intégrés pour les données et projets liés à l\'IA ?',
         description: 'Advanced, integrated analytics tools accelerate AI development and enable more sophisticated data science workflows.',
+        descriptionFr: 'Des outils d\'analyse avancés et intégrés accélèrent le développement IA et permettent des workflows de science des données plus sophistiqués.',
         type: 'radio',
         required: true,
         options: [
@@ -623,12 +676,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Some AI-optimized tools, limited integration',
           'AI-optimized tools, moderate integration',
           'Fully integrated, advanced, and scalable for AI'
+        ],
+        optionsFr: [
+          'Outils généralistes uniquement, peu de capacité IA',
+          'Quelques outils optimisés IA, intégration limitée',
+          'Outils optimisés IA, intégration modérée',
+          'Entièrement intégré, avancé et évolutif pour l\'IA'
         ]
       },
       {
         id: 'data-lineage-tracking',
         text: 'Do you track the origin, transformation, and usage of your data (data lineage) for AI models?',
+        textFr: 'Suivez-vous l\'origine, la transformation et l\'utilisation de vos données (lignage des données) pour les modèles IA ?',
         description: 'Data lineage tracking ensures data quality, enables debugging of AI models, and supports regulatory compliance requirements.',
+        descriptionFr: 'Le suivi du lignage des données garantit la qualité des données, permet le débogage des modèles IA et prend en charge les exigences de conformité réglementaire.',
         type: 'radio',
         required: true,
         options: [
@@ -636,12 +697,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Some manual logs/project notes',
           'Automated tracking for critical projects only',
           'Comprehensive, automated lineage tracking'
+        ],
+        optionsFr: [
+          'Aucun suivi',
+          'Quelques journaux manuels/notes de projet',
+          'Suivi automatisé pour les projets critiques uniquement',
+          'Suivi de lignage automatisé et complet'
         ]
       },
       {
         id: 'external-data-validation',
         text: 'How do you validate the quality and reliability of external data sources for AI?',
+        textFr: 'Comment validez-vous la qualité et la fiabilité des sources de données externes pour l\'IA ?',
         description: 'External data validation prevents poor-quality data from compromising AI model accuracy and business decisions.',
+        descriptionFr: 'La validation des données externes empêche les données de mauvaise qualité de compromettre la précision des modèles IA et les décisions métier.',
         type: 'radio',
         required: true,
         options: [
@@ -649,12 +718,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Basic manual checks',
           'Systematic, documented checks',
           'Peer review or third-party audit'
+        ],
+        optionsFr: [
+          'Aucune vérification',
+          'Vérifications manuelles de base',
+          'Vérifications systématiques et documentées',
+          'Revue par les pairs ou audit tiers'
         ]
       },
       {
         id: 'data-anonymization',
         text: 'Are personal or sensitive data sets anonymized before being used in AI applications?',
+        textFr: 'Les jeux de données personnelles ou sensibles sont-ils anonymisés avant d\'être utilisés dans les applications IA ?',
         description: 'Data anonymization protects user privacy, ensures regulatory compliance, and reduces legal risks in AI deployments.',
+        descriptionFr: 'L\'anonymisation des données protège la vie privée des utilisateurs, garantit la conformité réglementaire et réduit les risques juridiques dans les déploiements IA.',
         type: 'radio',
         required: true,
         options: [
@@ -662,6 +739,12 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Sometimes, depending on project',
           'Usually, but not always',
           'Always, as part of a formal policy'
+        ],
+        optionsFr: [
+          'Jamais',
+          'Parfois, selon le projet',
+          'Habituellement, mais pas toujours',
+          'Toujours, dans le cadre d\'une politique formelle'
         ]
       }
     ]
