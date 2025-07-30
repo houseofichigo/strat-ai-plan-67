@@ -10,11 +10,14 @@ import { assessmentSections } from '@/data/assessmentData';
 import { useAssessmentForm } from '@/hooks/useAssessmentForm';
 import { assessmentService } from '@/services/assessmentService';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
+import { analyticsService } from '@/services/analyticsService';
 
 const Assessment = () => {
   const [currentSection, setCurrentSection] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [showValidationAlert, setShowValidationAlert] = useState(false);
+  const [sectionStartTime, setSectionStartTime] = useState(Date.now());
   const { 
     formData, 
     updateAnswer, 
@@ -27,21 +30,55 @@ const Assessment = () => {
     clearDraft
   } = useAssessmentForm();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const totalSections = assessmentSections.length;
   const progressInfo = getProgress();
   const sectionProgress = getSectionProgress(currentSection);
 
-  // Scroll to top when section changes
+  // Scroll to top when section changes and track analytics
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Track section start
+    const section = assessmentSections[currentSection];
+    if (section) {
+      analyticsService.trackSectionStart(section.id, section.title);
+      setSectionStartTime(Date.now());
+    }
   }, [currentSection]);
+
+  // Track page load
+  useEffect(() => {
+    analyticsService.trackEvent('assessment_started');
+    
+    // Track page unload for drop-off detection
+    const handleBeforeUnload = () => {
+      const section = assessmentSections[currentSection];
+      if (section) {
+        analyticsService.trackDropOff(section.id);
+      }
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, []);
+
+  // Track when user answers questions
+  const trackQuestionAnswer = (sectionId: string, questionId: string, value: string | string[]) => {
+    analyticsService.trackQuestionAnswered(sectionId, questionId, value);
+  };
 
   const handleNext = async () => {
     // Hide any previous alerts
     setShowValidationAlert(false);
     
     if (validateSection(currentSection)) {
+      // Track section completion
+      const section = assessmentSections[currentSection];
+      const timeSpent = Date.now() - sectionStartTime;
+      analyticsService.trackSectionComplete(section.id, section.title, Math.floor(timeSpent / 1000));
+      
       if (currentSection < totalSections - 1) {
         setCurrentSection(currentSection + 1);
       } else {
@@ -74,12 +111,17 @@ const Assessment = () => {
         });
         
         if (result.success) {
+          // Track assessment completion
+          const totalTimeSpent = Date.now() - sectionStartTime;
+          const progressInfo = getProgress();
+          analyticsService.trackAssessmentComplete(Math.floor(totalTimeSpent / 1000), progressInfo.percentage);
+          
           toast({
             title: 'Assessment Submitted',
             description: `Your assessment has been submitted successfully. ID: ${result.submissionId}`,
           });
           clearDraft(); // Clear saved draft after successful submission
-          setShowResults(true);
+          navigate('/thank-you', { state: { formData } });
         } else {
           toast({
             title: 'Submission Failed',
@@ -128,9 +170,7 @@ const Assessment = () => {
     }
   };
 
-  if (showResults) {
-    return <AssessmentResults formData={formData} />;
-  }
+  // Remove the showResults check as we now navigate to thank-you page
 
   const currentSectionData = assessmentSections[currentSection];
   const hasErrors = Object.keys(errors).some(key => key.startsWith(currentSectionData.id));

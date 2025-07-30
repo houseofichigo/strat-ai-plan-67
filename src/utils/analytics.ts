@@ -22,12 +22,7 @@ export class AnalyticsService {
     try {
       localStorage.setItem('usecase_analytics', JSON.stringify(this.interactions));
     } catch (error) {
-      console.warn('Failed to store analytics:', error);
-    }
-    
-    // Log for debugging in development only
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Analytics tracked:', interaction);
+      // Silent fail for analytics storage
     }
   }
   

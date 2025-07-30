@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Crown, Users, BarChart3, Settings, RefreshCw, FileText } from 'lucide-react';
+import { Crown, Users, BarChart3, Settings, RefreshCw, FileText, Download, TrendingUp, Clock, AlertTriangle } from 'lucide-react';
 import { assessmentService, AssessmentSubmission } from '@/services/assessmentService';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { analyticsService, AssessmentAnalytics } from '@/services/analyticsService';
 
 export default function Admin() {
   const [submissions, setSubmissions] = useState<AssessmentSubmission[]>([]);
+  const [analytics, setAnalytics] = useState<AssessmentAnalytics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [analyticsLoading, setAnalyticsLoading] = useState(true);
   const { toast } = useToast();
 
   const fetchSubmissions = async () => {
@@ -36,8 +39,59 @@ export default function Admin() {
     }
   };
 
+  const fetchAnalytics = async () => {
+    setAnalyticsLoading(true);
+    try {
+      const result = await analyticsService.getAnalytics();
+      if (result.success && result.data) {
+        setAnalytics(result.data);
+      } else {
+        toast({
+          title: 'Analytics Error',
+          description: result.error || 'Failed to fetch analytics',
+          variant: 'destructive',
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Analytics Error',
+        description: 'Failed to fetch analytics data',
+        variant: 'destructive',
+      });
+    } finally {
+      setAnalyticsLoading(false);
+    }
+  };
+
+  const exportAnalytics = () => {
+    try {
+      const data = analyticsService.exportAnalyticsData();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `assessment-analytics-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: 'Export Successful',
+        description: 'Analytics data has been downloaded',
+      });
+    } catch (error) {
+      toast({
+        title: 'Export Failed',
+        description: 'Failed to export analytics data',
+        variant: 'destructive',
+      });
+    }
+  };
+
   useEffect(() => {
     fetchSubmissions();
+    fetchAnalytics();
 
     // Set up real-time subscription for new submissions
     const channel = supabase
@@ -50,8 +104,9 @@ export default function Admin() {
           table: 'assessment_submissions'
         },
         () => {
-          // Refresh submissions when new ones are added
+          // Refresh submissions and analytics when new ones are added
           fetchSubmissions();
+          fetchAnalytics();
           toast({
             title: 'New Submission',
             description: 'A new assessment submission has been received',
@@ -77,59 +132,127 @@ export default function Admin() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* User Management */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="w-5 h-5" />
-                Users
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">No users yet</p>
-            </CardContent>
-          </Card>
-
-          {/* Assessments */}
+          {/* Total Submissions */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
-                Assessments
+                Submissions
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{submissions.length}</div>
-              <p className="text-xs text-muted-foreground">Total submissions</p>
+              <div className="text-2xl font-bold">{analytics?.total_submissions || submissions.length}</div>
+              <p className="text-xs text-muted-foreground">Total assessments</p>
             </CardContent>
           </Card>
 
-          {/* Analytics */}
+          {/* Completion Rate */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="w-5 h-5" />
-                Reports
+                <TrendingUp className="w-5 h-5" />
+                Completion Rate
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">0</div>
-              <p className="text-xs text-muted-foreground">No reports generated</p>
+              <div className="text-2xl font-bold">{analytics?.completion_rate.toFixed(1) || '0'}%</div>
+              <p className="text-xs text-muted-foreground">Assessment completion</p>
             </CardContent>
           </Card>
 
-          {/* System Settings */}
+          {/* Average Time */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Clock className="w-5 h-5" />
+                Avg. Time
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{Math.round((analytics?.average_time_spent || 1200) / 60)}</div>
+              <p className="text-xs text-muted-foreground">Minutes to complete</p>
+            </CardContent>
+          </Card>
+
+          {/* System Status */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Settings className="w-5 h-5" />
-                Settings
+                System
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">Active</div>
+              <div className="text-2xl font-bold text-green-600">Active</div>
               <p className="text-xs text-muted-foreground">Platform operational</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Analytics Dashboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+          {/* Section Completion Rates */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Section Completion Rates</CardTitle>
+              <p className="text-sm text-muted-foreground">How often each section is completed</p>
+            </CardHeader>
+            <CardContent>
+              {analyticsLoading ? (
+                <p className="text-muted-foreground">Loading analytics...</p>
+              ) : analytics?.section_completion_rates ? (
+                <div className="space-y-3">
+                  {Object.entries(analytics.section_completion_rates).map(([sectionId, rate]) => (
+                    <div key={sectionId} className="flex items-center justify-between">
+                      <span className="text-sm capitalize">{sectionId.replace('-', ' ')}</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-20 bg-muted rounded-full h-2">
+                          <div 
+                            className="bg-primary h-2 rounded-full transition-all"
+                            style={{ width: `${rate}%` }}
+                          />
+                        </div>
+                        <span className="text-sm font-medium w-12">{rate.toFixed(1)}%</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No completion data available</p>
+              )}
+            </CardContent>
+          </Card>
+
+          {/* Drop-off Points */}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <div>
+                <CardTitle>Drop-off Analysis</CardTitle>
+                <p className="text-sm text-muted-foreground">Sections where users most often leave</p>
+              </div>
+              <Button onClick={exportAnalytics} size="sm" variant="outline">
+                <Download className="w-4 h-4 mr-2" />
+                Export
+              </Button>
+            </CardHeader>
+            <CardContent>
+              {analyticsLoading ? (
+                <p className="text-muted-foreground">Loading analytics...</p>
+              ) : analytics?.drop_off_points && analytics.drop_off_points.length > 0 ? (
+                <div className="space-y-3">
+                  {analytics.drop_off_points.slice(0, 5).map((dropOff, index) => (
+                    <div key={dropOff.section_id} className="flex items-center gap-3">
+                      <AlertTriangle className="w-4 h-4 text-orange-500" />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">{dropOff.section_name}</p>
+                        <p className="text-xs text-muted-foreground">{dropOff.drop_off_rate.toFixed(1)}% drop-off rate</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground">No drop-off data available</p>
+              )}
             </CardContent>
           </Card>
         </div>
@@ -141,10 +264,16 @@ export default function Admin() {
               <CardTitle>Assessment Submissions</CardTitle>
               <p className="text-muted-foreground text-sm">Recent assessment submissions from users</p>
             </div>
-            <Button onClick={fetchSubmissions} disabled={loading} size="sm" variant="outline">
-              <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-              Refresh
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={() => { fetchSubmissions(); fetchAnalytics(); }} disabled={loading || analyticsLoading} size="sm" variant="outline">
+                <RefreshCw className={`w-4 h-4 mr-2 ${(loading || analyticsLoading) ? 'animate-spin' : ''}`} />
+                Refresh
+              </Button>
+              <Button onClick={exportAnalytics} size="sm" variant="outline">
+                <Download className="w-4 h-4 mr-2" />
+                Export Data
+              </Button>
+            </div>
           </CardHeader>
           <CardContent>
             {loading ? (

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { assessmentSections, FormData } from '@/data/assessmentData';
 import { assessmentService } from '@/services/assessmentService';
 import { useToast } from '@/hooks/use-toast';
+import { analyticsService } from '@/services/analyticsService';
 
 // Validation functions
 const validateEmail = (email: string): boolean => {
@@ -77,6 +78,9 @@ export const useAssessmentForm = () => {
     };
     
     setFormData(newFormData);
+    
+    // Track the answer
+    analyticsService.trackQuestionAnswered(sectionId, questionId, value);
     
     // Clear error when user provides answer
     const errorKey = `${sectionId}.${questionId}`;
