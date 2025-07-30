@@ -2,53 +2,36 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { 
-  CheckCircle, 
-  ArrowLeft, 
-  Star,
-  TrendingUp,
-  Shield,
-  Lightbulb,
-  Rocket,
-  ExternalLink,
-  Mail
-} from 'lucide-react';
+import { CheckCircle, ArrowLeft, Star, TrendingUp, Shield, Lightbulb, Rocket, ExternalLink, Mail } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { FormData } from '@/data/assessmentData';
 import { useToast } from '@/hooks/use-toast';
-
 interface ThankYouProps {
   formData?: FormData;
 }
-
-export default function ThankYou({ formData }: ThankYouProps) {
+export default function ThankYou({
+  formData
+}: ThankYouProps) {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const handleBackToAssessment = () => {
     navigate('/');
   };
-
   const handleVisitWebsite = () => {
     window.open('https://www.houseofichigo.com', '_blank');
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+  return <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
       {/* Confetti Effect */}
       <div className="fixed inset-0 pointer-events-none z-50">
-        {[...Array(30)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute animate-bounce"
-            style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 2}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
-            }}
-          >
+        {[...Array(30)].map((_, i) => <div key={i} className="absolute animate-bounce" style={{
+        left: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 2}s`,
+        animationDuration: `${2 + Math.random() * 2}s`
+      }}>
             <Star className="w-4 h-4 text-primary fill-current opacity-70" />
-          </div>
-        ))}
+          </div>)}
       </div>
       
       <div className="container mx-auto px-4 py-8 max-w-4xl">
@@ -69,9 +52,7 @@ export default function ThankYou({ formData }: ThankYouProps) {
             Congratulations! You've successfully completed your AI Readiness Assessment.
           </p>
           
-          <p className="text-lg text-muted-foreground/80 max-w-3xl mx-auto">
-            Your personalized insights are ready. Download your comprehensive report to discover your AI readiness score and get actionable recommendations.
-          </p>
+          
         </div>
 
         {/* Quick Highlights */}
@@ -174,19 +155,12 @@ export default function ThankYou({ formData }: ThankYouProps) {
 
         {/* Navigation */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button 
-            onClick={handleBackToAssessment}
-            variant="outline"
-            className="flex items-center gap-2"
-          >
+          <Button onClick={handleBackToAssessment} variant="outline" className="flex items-center gap-2">
             <ArrowLeft className="w-4 h-4" />
             Take Another Assessment
           </Button>
           
-          <Button 
-            onClick={handleVisitWebsite}
-            className="flex items-center gap-2"
-          >
+          <Button onClick={handleVisitWebsite} className="flex items-center gap-2">
             <ExternalLink className="w-4 h-4" />
             Visit House of Ichigo Website
           </Button>
@@ -200,6 +174,5 @@ export default function ThankYou({ formData }: ThankYouProps) {
           </p>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
