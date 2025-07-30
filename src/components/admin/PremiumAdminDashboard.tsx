@@ -124,10 +124,10 @@ export const PremiumAdminDashboard: React.FC<PremiumAdminDashboardProps> = ({
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-700">{realtimeMetrics.activeNow}</div>
-            <p className="text-xs text-green-600 flex items-center gap-1">
+            <div className="text-xs text-green-600 flex items-center gap-1">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               Active users now
-            </p>
+            </div>
           </CardContent>
         </Card>
 
@@ -349,7 +349,7 @@ export const PremiumAdminDashboard: React.FC<PremiumAdminDashboardProps> = ({
                         <h3 className={`font-semibold ${isTop ? 'text-yellow-800' : ''}`}>
                           {org.name}
                         </h3>
-                        <p className="text-sm text-muted-foreground flex items-center gap-2">
+                        <div className="text-sm text-muted-foreground flex items-center gap-2">
                           <Globe className="h-3 w-3" />
                           {org.domain}
                           {org.size_category && (
@@ -358,7 +358,7 @@ export const PremiumAdminDashboard: React.FC<PremiumAdminDashboardProps> = ({
                               <span className="capitalize">{org.size_category}</span>
                             </>
                           )}
-                        </p>
+                        </div>
                       </div>
                     </div>
                     <div className="text-right">

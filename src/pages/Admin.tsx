@@ -21,7 +21,7 @@ interface FilterState {
     from?: Date;
     to?: Date;
   };
-  emailDomain: string;
+  organization: string;
 }
 
 const Admin = () => {
@@ -35,7 +35,7 @@ const Admin = () => {
     search: '',
     status: '',
     dateRange: {},
-    emailDomain: '',
+    organization: '',
   });
 
   const fetchData = async () => {
@@ -100,10 +100,10 @@ const Admin = () => {
         return false;
       }
 
-      // Email domain filter
-      if (filters.emailDomain && submission.user_email) {
-        const domain = submission.user_email.split('@')[1];
-        if (!domain?.toLowerCase().includes(filters.emailDomain.toLowerCase())) {
+      // Organization filter
+      if (filters.organization && submission.submission_data?.['metadata-respondent-info']?.['company-name']) {
+        const orgName = submission.submission_data['metadata-respondent-info']['company-name'];
+        if (!orgName?.toLowerCase().includes(filters.organization.toLowerCase())) {
           return false;
         }
       }
@@ -235,7 +235,7 @@ const Admin = () => {
       search: '',
       status: '',
       dateRange: {},
-      emailDomain: '',
+      organization: '',
     });
   };
 
@@ -345,11 +345,7 @@ const Admin = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {new Set(
-                    submissions
-                      .filter(s => s.user_email)
-                      .map(s => s.user_email.split('@')[1])
-                  ).size}
+                  {organizations.length}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   organizations represented

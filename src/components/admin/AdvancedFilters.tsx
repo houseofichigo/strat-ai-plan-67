@@ -16,7 +16,7 @@ interface FilterState {
     from?: Date;
     to?: Date;
   };
-  emailDomain: string;
+  organization: string;
 }
 
 interface AdvancedFiltersProps {
@@ -37,7 +37,7 @@ export const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
   const hasActiveFilters = 
     filters.search || 
     filters.status || 
-    filters.emailDomain || 
+    filters.organization || 
     filters.dateRange.from || 
     filters.dateRange.to;
 
@@ -80,13 +80,13 @@ export const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
             </Select>
           </div>
 
-          {/* Email Domain */}
+          {/* Organization */}
           <div>
-            <label className="text-sm font-medium mb-2 block">Email Domain</label>
+            <label className="text-sm font-medium mb-2 block">Organization</label>
             <Input
-              placeholder="e.g., company.com"
-              value={filters.emailDomain}
-              onChange={(e) => updateFilter('emailDomain', e.target.value)}
+              placeholder="e.g., Acme Corporation"
+              value={filters.organization}
+              onChange={(e) => updateFilter('organization', e.target.value)}
             />
           </div>
 
@@ -146,12 +146,12 @@ export const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
                 />
               </Badge>
             )}
-            {filters.emailDomain && (
+            {filters.organization && (
               <Badge variant="secondary">
-                Domain: {filters.emailDomain}
+                Organization: {filters.organization}
                 <X
                   className="h-3 w-3 ml-1 cursor-pointer"
-                  onClick={() => updateFilter('emailDomain', '')}
+                  onClick={() => updateFilter('organization', '')}
                 />
               </Badge>
             )}

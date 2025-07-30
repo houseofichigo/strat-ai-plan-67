@@ -34,20 +34,20 @@ export const DataVisualization: React.FC<DataVisualizationProps> = ({ submission
     }));
   }, [submissions]);
 
-  // Domain analysis
-  const domainAnalysis = React.useMemo(() => {
-    const domains = submissions
-      .filter(s => s.user_email)
+  // Organization analysis
+  const organizationAnalysis = React.useMemo(() => {
+    const orgCounts = submissions
+      .filter(s => s.organization_id)
       .reduce((acc, submission) => {
-        const domain = submission.user_email.split('@')[1];
-        acc[domain] = (acc[domain] || 0) + 1;
+        const orgName = submission.submission_data?.['metadata-respondent-info']?.['company-name'] || 'Unknown Organization';
+        acc[orgName] = (acc[orgName] || 0) + 1;
         return acc;
       }, {} as Record<string, number>);
 
-    return Object.entries(domains)
-      .map(([domain, count]) => ({ domain, count }))
+    return Object.entries(orgCounts)
+      .map(([organization, count]) => ({ organization, count }))
       .sort((a, b) => (b.count as number) - (a.count as number))
-      .slice(0, 10); // Top 10 domains
+      .slice(0, 10); // Top 10 organizations
   }, [submissions]);
 
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
@@ -100,16 +100,22 @@ export const DataVisualization: React.FC<DataVisualizationProps> = ({ submission
         </CardContent>
       </Card>
 
-      {/* Top Domains */}
+      {/* Top Organizations */}
       <Card className="lg:col-span-2">
         <CardHeader>
-          <CardTitle>Top Email Domains</CardTitle>
+          <CardTitle>Top Organizations</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={domainAnalysis}>
+            <BarChart data={organizationAnalysis}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="domain" />
+              <XAxis 
+                dataKey="organization" 
+                angle={-45}
+                textAnchor="end"
+                height={100}
+                interval={0}
+              />
               <YAxis />
               <Tooltip />
               <Bar dataKey="count" fill="#8884d8" />
