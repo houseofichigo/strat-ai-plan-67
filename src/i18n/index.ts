@@ -67,10 +67,60 @@ const resources = {
         success: 'Success',
         warning: 'Warning',
         info: 'Information',
+        yes: 'Yes',
+        no: 'No',
+        continue: 'Continue',
+        close: 'Close',
+      },
+      // Assessment
+      assessment: {
+        title: 'AI Readiness Assessment',
+        subtitle: 'Discover your organization\'s AI maturity and receive personalized recommendations',
+        welcome: 'Welcome to our AI Readiness Assessment',
+        description: 'This comprehensive assessment will analyze your organization\'s AI capabilities and provide tailored recommendations.',
+        getStarted: 'Start Assessment',
+        progress: 'Progress',
+        section: 'Section',
+        of: 'of',
+        next: 'Next',
+        back: 'Previous',
+        submit: 'Submit',
+        completeAssessment: 'Complete Assessment',
+        submitting: 'Submitting...',
+        required: 'Required',
+        optional: 'Optional',
+        skipSection: 'Skip This Section',
+        sectionComplete: 'Section Complete',
+        allSectionsComplete: 'All Sections Complete',
+        validationError: 'Please answer all required questions before continuing.',
+        submissionSuccess: 'Assessment submitted successfully!',
+        submissionError: 'Error submitting assessment',
+        draftSaved: 'Draft saved automatically',
+        draftRestored: 'Your draft has been restored',
+        sections: {
+          'business-strategy': 'Business Strategy & Use-Case Readiness',
+          'financial-readiness': 'Financial Capacity & Strategic Readiness',
+          'data-governance': 'Data Maturity & Governance',
+          'technical-infrastructure': 'Technical Infrastructure',
+          'automation-agents': 'Automation & AI Agents',
+          'team-culture': 'Team AI Culture & Development',
+          'ethics-experimentation': 'Ethics & Experimentation',
+          'metadata': 'Metadata & Respondent Information'
+        },
+        sectionDescriptions: {
+          'business-strategy': 'Evaluates if your organization has a clear understanding of how AI can support business growth, operational efficiency, or customer impact.',
+          'financial-readiness': 'Evaluates your organization\'s current and future capacity to fund data and AI initiatives.',
+          'data-governance': 'Evaluates your organization\'s data architecture, quality controls, governance practices, and privacy readiness.',
+          'technical-infrastructure': 'Evaluates the robustness of your tech stack — how data flows between tools, how integrations are maintained.',
+          'automation-agents': 'Evaluates the level of automation in your operations, identifies high-friction tasks and workflows.',
+          'team-culture': 'Evaluates your team\'s familiarity with AI tools, distribution of AI responsibilities.',
+          'ethics-experimentation': 'Evaluates your organization\'s approach to AI risk management, ethical deployment practices.',
+          'metadata': 'Collects necessary information to personalize your AI maturity report.'
+        }
       },
       // Solutions
       solutions: {
-        title: 'agents and workflows',
+        title: 'Agents and Workflows',
         allSolutions: 'All Solutions',
         aiAgents: 'AI Agents',
         workflows: 'Workflows',
@@ -80,6 +130,21 @@ const resources = {
         quickWins: 'Quick Wins',
         highROI: 'High ROI Solutions',
         newArrivals: 'New Arrivals',
+      },
+      // Thank You Page
+      thankYou: {
+        title: 'Thank You!',
+        subtitle: 'Your assessment has been submitted successfully',
+        message: 'We appreciate the time you took to complete our AI readiness assessment.',
+        whatNext: 'What\'s Next?',
+        reportDescription: 'Our team of experts will analyze your responses and prepare a detailed AI readiness report with personalized recommendations.',
+        timeframe: 'You will receive your report within 2-3 business days.',
+        retakeAssessment: 'Retake Assessment',
+        visitWebsite: 'Visit Our Website',
+        keyTakeaways: 'Key Takeaways',
+        takeaway1: 'Your AI journey starts now',
+        takeaway2: 'Stay informed about the latest AI trends',
+        takeaway3: 'Prepare for digital transformation'
       }
     }
   },
