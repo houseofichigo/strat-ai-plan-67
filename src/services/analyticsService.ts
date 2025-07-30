@@ -112,6 +112,37 @@ class AnalyticsService {
     };
   }
 
+  // Store analytics event in Supabase
+  async storeEvent(event: AnalyticsEvent): Promise<void> {
+    try {
+      const { error } = await supabase
+        .from('analytics_events')
+        .insert([event]);
+      
+      if (error) {
+        console.warn('Failed to store analytics event:', error);
+      }
+    } catch (error) {
+      console.warn('Failed to store analytics event:', error);
+    }
+  }
+
+  // Enhanced tracking with Supabase storage
+  async trackEventToSupabase(eventType: string, data?: Record<string, any>) {
+    const event: AnalyticsEvent = {
+      event_type: eventType,
+      user_session: this.sessionId,
+      timestamp: new Date().toISOString(),
+      metadata: data
+    };
+
+    // Store locally as backup
+    this.trackEvent(eventType, data);
+    
+    // Store in Supabase
+    await this.storeEvent(event);
+  }
+
   // Get analytics from database for admin dashboard
   async getAnalytics(): Promise<{ success: boolean; data?: AssessmentAnalytics; error?: string }> {
     try {
@@ -133,8 +164,22 @@ class AnalyticsService {
         return { success: false, error: answersError.message };
       }
 
+      // Get analytics events for enhanced insights
+      const { data: events, error: eventsError } = await supabase
+        .from('analytics_events')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(10000);
+
+      if (eventsError) {
+        console.warn('Failed to fetch analytics events:', eventsError);
+      }
+
       // Calculate analytics
-      const analytics = this.calculateAnalytics(totalSubmissions || 0, answers || []);
+      const analytics = this.calculateAnalytics(totalSubmissions || 0, answers || [], events || []);
+      
+      // Store aggregated metrics in summary table
+      await this.updateAnalyticsSummary(analytics);
       
       return { success: true, data: analytics };
     } catch (error) {
@@ -142,7 +187,39 @@ class AnalyticsService {
     }
   }
 
-  private calculateAnalytics(totalSubmissions: number, answers: any[]): AssessmentAnalytics {
+  // Update analytics summary table with aggregated metrics
+  private async updateAnalyticsSummary(analytics: AssessmentAnalytics): Promise<void> {
+    try {
+      const summaryData = [
+        {
+          metric_name: 'section_completion_rates',
+          metric_value: analytics.section_completion_rates
+        },
+        {
+          metric_name: 'popular_answers',
+          metric_value: analytics.popular_answers
+        },
+        {
+          metric_name: 'user_engagement',
+          metric_value: {
+            total_submissions: analytics.total_submissions,
+            completion_rate: analytics.completion_rate,
+            average_time_spent: analytics.average_time_spent
+          }
+        }
+      ];
+
+      for (const summary of summaryData) {
+        await supabase
+          .from('analytics_summary')
+          .upsert(summary, { onConflict: 'metric_name' });
+      }
+    } catch (error) {
+      console.warn('Failed to update analytics summary:', error);
+    }
+  }
+
+  private calculateAnalytics(totalSubmissions: number, answers: any[], events: any[] = []): AssessmentAnalytics {
     // Group answers by section
     const sectionStats: Record<string, { completed: number; total_questions: number }> = {};
     const answerCounts: Record<string, Record<string, number>> = {};
@@ -174,6 +251,18 @@ class AnalyticsService {
         : 0;
     });
 
+    // Calculate average time from events
+    let averageTime = 1200; // Default 20 minutes
+    if (events.length > 0) {
+      const completionEvents = events.filter(e => e.event_type === 'assessment_complete');
+      if (completionEvents.length > 0) {
+        const totalTime = completionEvents.reduce((sum, event) => {
+          return sum + (event.metadata?.total_time_spent_seconds || 0);
+        }, 0);
+        averageTime = Math.round(totalTime / completionEvents.length);
+      }
+    }
+
     // Calculate drop-off points (sections with lowest completion rates)
     const dropOffPoints = Object.entries(sectionCompletionRates)
       .map(([sectionId, rate]) => ({
@@ -184,10 +273,22 @@ class AnalyticsService {
       .sort((a, b) => b.drop_off_rate - a.drop_off_rate)
       .slice(0, 5);
 
+    // Calculate enhanced completion rate based on actual data
+    const completedSubmissions = answers.reduce((acc, answer) => {
+      if (!acc.has(answer.submission_id)) {
+        acc.add(answer.submission_id);
+      }
+      return acc;
+    }, new Set()).size;
+
+    const enhancedCompletionRate = totalSubmissions > 0 
+      ? Math.round((completedSubmissions / totalSubmissions) * 100) 
+      : 0;
+
     return {
       total_submissions: totalSubmissions,
-      completion_rate: totalSubmissions > 0 ? 85 : 0, // Placeholder calculation
-      average_time_spent: 1200, // 20 minutes average - placeholder
+      completion_rate: enhancedCompletionRate,
+      average_time_spent: averageTime,
       section_completion_rates: sectionCompletionRates,
       popular_answers: answerCounts,
       drop_off_points: dropOffPoints

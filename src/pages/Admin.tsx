@@ -10,7 +10,7 @@ import { toast } from '@/hooks/use-toast';
 import { assessmentService } from '@/services/assessmentService';
 import { SubmissionDetails } from '@/components/admin/SubmissionDetails';
 import { AdvancedFilters } from '@/components/admin/AdvancedFilters';
-import { DataVisualization } from '@/components/admin/DataVisualization';
+import { EnhancedAnalytics } from '@/components/admin/EnhancedAnalytics';
 import { BulkActions } from '@/components/admin/BulkActions';
 
 interface FilterState {
@@ -416,7 +416,7 @@ const Admin = () => {
         </TabsContent>
 
         <TabsContent value="analytics" className="space-y-6">
-          <DataVisualization submissions={submissions} />
+          <EnhancedAnalytics submissions={submissions} />
         </TabsContent>
       </Tabs>
 

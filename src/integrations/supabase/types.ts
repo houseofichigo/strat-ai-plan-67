@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      analytics_events: {
+        Row: {
+          created_at: string | null
+          event_type: string
+          id: string
+          metadata: Json | null
+          question_id: string | null
+          section_id: string | null
+          user_id: string | null
+          user_session: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_type: string
+          id?: string
+          metadata?: Json | null
+          question_id?: string | null
+          section_id?: string | null
+          user_id?: string | null
+          user_session?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_type?: string
+          id?: string
+          metadata?: Json | null
+          question_id?: string | null
+          section_id?: string | null
+          user_id?: string | null
+          user_session?: string | null
+        }
+        Relationships: []
+      }
+      analytics_summary: {
+        Row: {
+          id: string
+          metric_name: string
+          metric_value: Json
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          metric_name: string
+          metric_value: Json
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          metric_name?: string
+          metric_value?: Json
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       assessment_answers: {
         Row: {
           answer_array: string[] | null
