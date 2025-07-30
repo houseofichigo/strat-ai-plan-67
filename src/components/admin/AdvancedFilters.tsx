@@ -72,7 +72,7 @@ export const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
                 <SelectValue placeholder="All statuses" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All statuses</SelectItem>
+                <SelectItem value="all">All statuses</SelectItem>
                 <SelectItem value="submitted">Submitted</SelectItem>
                 <SelectItem value="draft">Draft</SelectItem>
                 <SelectItem value="incomplete">Incomplete</SelectItem>

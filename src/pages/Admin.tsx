@@ -86,7 +86,7 @@ const Admin = () => {
       }
 
       // Status filter
-      if (filters.status && submission.status !== filters.status) {
+      if (filters.status && filters.status !== 'all' && submission.status !== filters.status) {
         return false;
       }
 
