@@ -1280,15 +1280,22 @@ export const assessmentSections: AssessmentSectionData[] = [
   {
     id: 'team-ai-literacy',
     title: 'Team AI Literacy & Development',
+    titleFr: 'Littératie IA et développement d\'équipe',
     description: 'Assesses team experience, skill levels, knowledge-sharing, upskilling, and responsibility for AI initiatives.',
+    descriptionFr: 'Évalue l\'expérience de l\'équipe, les niveaux de compétences, le partage de connaissances, la montée en compétences et la responsabilité des initiatives IA.',
     detailedDescription: 'Understanding your team\'s AI experience and learning culture helps us recommend the right training and support approaches.',
+    detailedDescriptionFr: 'Comprendre l\'expérience IA de votre équipe et la culture d\'apprentissage nous aide à recommander les bonnes approches de formation et de support.',
     weight: '15%',
+    weightFr: '15%',
     estimatedTime: '5-6 minutes',
+    estimatedTimeFr: '5-6 minutes',
     questions: [
       {
         id: 'current-ai-tools',
         text: 'Which AI-powered tools are already in use by your team?',
+        textFr: 'Quels outils alimentés par l\'IA votre équipe utilise-t-elle déjà ?',
         description: 'Current AI tool usage indicates your team\'s comfort level and existing familiarity with AI workflows.',
+        descriptionFr: 'L\'utilisation actuelle d\'outils IA indique le niveau de confort de votre équipe et sa familiarité existante avec les workflows IA.',
         type: 'multiselect',
         required: true,
         options: [
@@ -1300,12 +1307,24 @@ export const assessmentSections: AssessmentSectionData[] = [
           'GitHub Copilot / Replit / Ghostwriter (coding)',
           'None yet',
           'Other'
+        ],
+        optionsFr: [
+          'ChatGPT (OpenAI)',
+          'Claude (Anthropic)',
+          'GPTs personnalisés / assistants',
+          'Notion AI',
+          'Canva AI / Copy.ai (création de contenu)',
+          'GitHub Copilot / Replit / Ghostwriter (codage)',
+          'Aucun pour l\'instant',
+          'Autre'
         ]
       },
       {
         id: 'ai-usage-frequency',
         text: 'How often do team members use AI tools in their tasks?',
+        textFr: 'À quelle fréquence les membres de l\'équipe utilisent-ils les outils IA dans leurs tâches ?',
         description: 'Usage frequency indicates adoption readiness and potential resistance to new AI implementations.',
+        descriptionFr: 'La fréquence d\'utilisation indique la préparation à l\'adoption et la résistance potentielle aux nouvelles implémentations IA.',
         type: 'radio',
         required: true,
         options: [
@@ -1314,12 +1333,21 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Occasionally',
           'Rarely',
           'Never'
+        ],
+        optionsFr: [
+          'Quotidiennement',
+          'Hebdomadairement',
+          'Occasionnellement',
+          'Rarement',
+          'Jamais'
         ]
       },
       {
         id: 'ai-use-cases',
         text: 'What do you currently use AI tools for?',
+        textFr: 'Pour quoi utilisez-vous actuellement les outils IA ?',
         description: 'Current use cases help us understand where your team sees value and where we can expand AI adoption.',
+        descriptionFr: 'Les cas d\'usage actuels nous aident à comprendre où votre équipe voit de la valeur et où nous pouvons étendre l\'adoption de l\'IA.',
         type: 'multiselect',
         required: true,
         options: [
@@ -1331,12 +1359,24 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Customer support responses',
           'Reporting & slide generation',
           'Other'
+        ],
+        optionsFr: [
+          'Création de contenu et rédaction',
+          'Analyse de données et insights',
+          'Codage et révision de code',
+          'Brainstorming / idéation',
+          'Résumé de réunions / mémos',
+          'Réponses au support client',
+          'Génération de rapports et présentations',
+          'Autre'
         ]
       },
       {
         id: 'skill-exposure-level',
         text: 'Which best describes your team\'s combined familiarity and practice with AI tools?',
+        textFr: 'Quelle description correspond le mieux à la familiarité et pratique combinées de votre équipe avec les outils IA ?',
         description: 'Skill level determines the complexity of AI solutions we can recommend and the training support needed.',
+        descriptionFr: 'Le niveau de compétence détermine la complexité des solutions IA que nous pouvons recommander et le support de formation nécessaire.',
         type: 'radio',
         required: true,
         options: [
@@ -1345,12 +1385,21 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Practitioner – 6–20 hours, write structured prompts',
           'Power User – over 20 hours, builds prompt chains & workflows',
           'Highly varied across team'
+        ],
+        optionsFr: [
+          'Débutant – moins d\'1 heure d\'apprentissage, usage basique',
+          'Explorateur – 1–5 heures, réutilise et ajuste les prompts',
+          'Praticien – 6–20 heures, écrit des prompts structurés',
+          'Utilisateur expert – plus de 20 heures, construit des chaînes de prompts et workflows',
+          'Très varié dans l\'équipe'
         ]
       },
       {
         id: 'knowledge-sharing',
         text: 'How does your team share knowledge around AI usage?',
+        textFr: 'Comment votre équipe partage-t-elle les connaissances autour de l\'utilisation de l\'IA ?',
         description: 'Knowledge sharing culture affects how quickly new AI tools and techniques will be adopted across your team.',
+        descriptionFr: 'La culture de partage de connaissances affecte la rapidité avec laquelle les nouveaux outils et techniques IA seront adoptés dans votre équipe.',
         type: 'radio',
         required: true,
         options: [
@@ -1358,12 +1407,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Occasionally share tips',
           'Mostly siloed – minimal sharing',
           'Did not know this was possible / allowed'
+        ],
+        optionsFr: [
+          'Oui – partage régulier d\'astuces, maintient une bibliothèque',
+          'Partage occasionnel d\'astuces',
+          'Principalement en silos – partage minimal',
+          'Ne savait pas que c\'était possible / autorisé'
         ]
       },
       {
         id: 'upskilling-approach',
         text: 'How is your team building skills around AI?',
+        textFr: 'Comment votre équipe développe-t-elle ses compétences autour de l\'IA ?',
         description: 'Your current upskilling approach helps us recommend appropriate training and support strategies.',
+        descriptionFr: 'Votre approche actuelle de montée en compétences nous aide à recommander des stratégies de formation et support appropriées.',
         type: 'radio',
         required: true,
         options: [
@@ -1372,12 +1429,21 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Dedicated training budget (courses, workshops)',
           'Cross-functional AI champions lead sessions',
           'Structured curriculum with certification roadmap'
+        ],
+        optionsFr: [
+          'Aucune approche formelle de montée en compétences encore',
+          'Auto-apprentissage ad hoc',
+          'Budget formation dédié (cours, ateliers)',
+          'Champions IA transversaux dirigent les sessions',
+          'Curriculum structuré avec roadmap de certification'
         ]
       },
       {
         id: 'ai-ownership',
         text: 'How is responsibility for AI distributed in your organization?',
+        textFr: 'Comment la responsabilité de l\'IA est-elle répartie dans votre organisation ?',
         description: 'AI ownership structure affects implementation speed and the level of coordination needed for success.',
+        descriptionFr: 'La structure de propriété IA affecte la vitesse d\'implémentation et le niveau de coordination nécessaire au succès.',
         type: 'radio',
         required: true,
         options: [
@@ -1386,12 +1452,21 @@ export const assessmentSections: AssessmentSectionData[] = [
           '2–3 cross-functional leads',
           'Dedicated AI / data squad',
           'Outsourced to external advisors or consultants'
+        ],
+        optionsFr: [
+          'Pas encore de propriétaire – en recherche',
+          'Champion unique (temps partiel)',
+          '2–3 responsables transversaux',
+          'Équipe IA / data dédiée',
+          'Externalisé vers des conseillers ou consultants externes'
         ]
       },
       {
         id: 'learning-adaptability',
         text: 'How quickly does your team typically adapt to new tools and technologies?',
+        textFr: 'À quelle vitesse votre équipe s\'adapte-t-elle typiquement aux nouveaux outils et technologies ?',
         description: 'Learning pace affects our rollout strategy and the timeline for realizing AI benefits.',
+        descriptionFr: 'Le rythme d\'apprentissage affecte notre stratégie de déploiement et le calendrier pour réaliser les bénéfices IA.',
         type: 'radio',
         required: true,
         options: [
@@ -1399,12 +1474,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Moderate adoption (4–8 weeks with training support)',
           'Fast adoption (2–4 weeks with good onboarding)',
           'Very fast adoption (within 1–2 weeks, largely self-directed)'
+        ],
+        optionsFr: [
+          'Adoption lente (plusieurs mois pour voir un usage régulier)',
+          'Adoption modérée (4–8 semaines avec support de formation)',
+          'Adoption rapide (2–4 semaines avec bon onboarding)',
+          'Adoption très rapide (dans 1–2 semaines, largement auto-dirigée)'
         ]
       },
       {
         id: 'ai-accessibility',
         text: 'How does your organization ensure AI tools and workflows are accessible to differently abled employees?',
+        textFr: 'Comment votre organisation s\'assure-t-elle que les outils et workflows IA sont accessibles aux employés en situation de handicap ?',
         description: 'Inclusive AI design ensures all team members can benefit from AI tools and workflows.',
+        descriptionFr: 'La conception IA inclusive garantit que tous les membres de l\'équipe peuvent bénéficier des outils et workflows IA.',
         type: 'radio',
         required: true,
         options: [
@@ -1412,12 +1495,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Limited awareness, no action',
           'Ad-hoc adjustments as needed',
           'Proactively included in all adoption and training'
+        ],
+        optionsFr: [
+          'Pas considéré',
+          'Conscience limitée, pas d\'action',
+          'Ajustements ad hoc selon les besoins',
+          'Inclus proactivement dans toute adoption et formation'
         ]
       },
       {
         id: 'ai-talent-strategy',
         text: 'What is your approach to attracting and retaining top AI talent?',
+        textFr: 'Quelle est votre approche pour attirer et retenir les meilleurs talents IA ?',
         description: 'Having the right AI talent is crucial for successful AI implementation and innovation.',
+        descriptionFr: 'Avoir les bons talents IA est crucial pour une implémentation et innovation IA réussies.',
         type: 'radio',
         required: true,
         options: [
@@ -1425,6 +1516,12 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Rely on external partners',
           'Basic retention/hiring programs',
           'Comprehensive talent pipeline and retention plan'
+        ],
+        optionsFr: [
+          'Aucune stratégie spécifique',
+          'S\'appuyer sur des partenaires externes',
+          'Programmes de base de rétention/recrutement',
+          'Plan complet de pipeline de talents et rétention'
         ]
       }
     ]
@@ -1432,15 +1529,22 @@ export const assessmentSections: AssessmentSectionData[] = [
   {
     id: 'ethics-experimentation',
     title: 'Ethics & Experimentation',
+    titleFr: 'Éthique et expérimentation',
     description: 'Assesses how your organization manages AI risks, fairness, transparency, and experimentation practices.',
+    descriptionFr: 'Évalue comment votre organisation gère les risques IA, l\'équité, la transparence et les pratiques d\'expérimentation.',
     detailedDescription: 'Responsible AI deployment requires proper risk management, ethics consideration, and systematic experimentation approaches.',
+    detailedDescriptionFr: 'Le déploiement responsable de l\'IA nécessite une gestion appropriée des risques, une considération éthique et des approches d\'expérimentation systématiques.',
     weight: '10%',
+    weightFr: '10%',
     estimatedTime: '5 minutes',
+    estimatedTimeFr: '5 minutes',
     questions: [
       {
         id: 'ai-risk-management',
         text: 'How does your team handle risks, bias, and potential ethical concerns in AI systems?',
+        textFr: 'Comment votre équipe gère-t-elle les risques, biais et préoccupations éthiques potentielles dans les systèmes IA ?',
         description: 'Risk management approach determines the safeguards we need to build into your AI implementations.',
+        descriptionFr: 'L\'approche de gestion des risques détermine les protections que nous devons intégrer dans vos implémentations IA.',
         type: 'radio',
         required: true,
         options: [
@@ -1448,12 +1552,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Basic – pre-launch bias checks on models',
           'Regular – ethics reviews & audits each release cycle',
           'Integrated – formal risk framework and sign-off workflow'
+        ],
+        optionsFr: [
+          'Réactif – corriger les problèmes au fur et à mesure qu\'ils apparaissent',
+          'Basique – vérifications de biais pré-lancement sur les modèles',
+          'Régulier – revues éthiques et audits à chaque cycle de version',
+          'Intégré – cadre de risque formel et workflow de validation'
         ]
       },
       {
         id: 'model-explainability',
         text: 'How transparent are your AI systems and outputs?',
+        textFr: 'À quel point vos systèmes IA et leurs résultats sont-ils transparents ?',
         description: 'Explainability requirements affect the types of AI models and deployment approaches we can recommend.',
+        descriptionFr: 'Les exigences d\'explicabilité affectent les types de modèles IA et approches de déploiement que nous pouvons recommander.',
         type: 'radio',
         required: true,
         options: [
@@ -1461,12 +1573,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Partial – logs only for major models',
           'Good – explanations available for critical models',
           'Comprehensive – explanations and audit logs for all models'
+        ],
+        optionsFr: [
+          'Aucune – modèles boîte noire, aucun enregistrement conservé',
+          'Partielle – journaux uniquement pour les modèles majeurs',
+          'Bonne – explications disponibles pour les modèles critiques',
+          'Complète – explications et journaux d\'audit pour tous les modèles'
         ]
       },
       {
         id: 'experimentation-cadence',
         text: 'How often does your team experiment with new AI features or models?',
+        textFr: 'À quelle fréquence votre équipe expérimente-t-elle avec de nouvelles fonctionnalités ou modèles IA ?',
         description: 'Experimentation frequency indicates your organization\'s innovation culture and readiness for continuous AI improvement.',
+        descriptionFr: 'La fréquence d\'expérimentation indique la culture d\'innovation de votre organisation et sa préparation pour l\'amélioration continue de l\'IA.',
         type: 'radio',
         required: true,
         options: [
@@ -1474,12 +1594,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Quarterly pilots',
           'Monthly experiments',
           'Continuous – weekly or faster iterations'
+        ],
+        optionsFr: [
+          'Rare / ad hoc',
+          'Pilotes trimestriels',
+          'Expérimentations mensuelles',
+          'Continu – itérations hebdomadaires ou plus rapides'
         ]
       },
       {
         id: 'failure-strategy',
         text: 'What happens when an AI model or feature doesn\'t work as expected?',
+        textFr: 'Que se passe-t-il quand un modèle ou une fonctionnalité IA ne fonctionne pas comme prévu ?',
         description: 'Failure handling strategy affects the resilience and reliability of AI systems we can recommend.',
+        descriptionFr: 'La stratégie de gestion des échecs affecte la résilience et fiabilité des systèmes IA que nous pouvons recommander.',
         type: 'radio',
         required: true,
         options: [
@@ -1487,12 +1615,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Monitoring alerts + manual rollback',
           'Automated rollback to prior stable version',
           'Self-healing systems with automated rollback & logging'
+        ],
+        optionsFr: [
+          'Corrections manuelles par l\'équipe',
+          'Alertes de surveillance + retour en arrière manuel',
+          'Retour automatique vers la version stable précédente',
+          'Systèmes auto-réparateurs avec retour automatique et journalisation'
         ]
       },
       {
         id: 'ethics-owner',
         text: 'Who is responsible for ensuring ethical AI practices in your company?',
+        textFr: 'Qui est responsable d\'assurer les pratiques IA éthiques dans votre entreprise ?',
         description: 'Ethics ownership ensures accountability and proper governance for your AI initiatives.',
+        descriptionFr: 'La propriété éthique assure la responsabilité et une gouvernance appropriée pour vos initiatives IA.',
         type: 'radio',
         required: true,
         options: [
@@ -1500,12 +1636,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Founder / C-level assumes role',
           'Dedicated ethics lead or committee',
           'External advisors / legal counsel'
+        ],
+        optionsFr: [
+          'Personne encore',
+          'Fondateur / Direction générale assume le rôle',
+          'Responsable éthique dédié ou comité',
+          'Conseillers externes / conseil juridique'
         ]
       },
       {
         id: 'failure-tolerance',
         text: 'How does your organization handle failed experiments or unsuccessful pilots?',
+        textFr: 'Comment votre organisation gère-t-elle les expérimentations échouées ou pilotes non réussis ?',
         description: 'Failure tolerance affects the types of AI experiments we can recommend and the innovation pace we can achieve.',
+        descriptionFr: 'La tolérance à l\'échec affecte les types d\'expérimentations IA que nous pouvons recommander et le rythme d\'innovation que nous pouvons atteindre.',
         type: 'radio',
         required: true,
         options: [
@@ -1513,12 +1657,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Learn from failure but discourage risk-taking',
           'Encourage smart risks with systematic learning from failures',
           'Celebrate intelligent failures as essential for innovation'
+        ],
+        optionsFr: [
+          'Éviter l\'échec – s\'en tenir uniquement aux approches éprouvées',
+          'Apprendre de l\'échec mais décourager la prise de risque',
+          'Encourager les risques intelligents avec apprentissage systématique des échecs',
+          'Célébrer les échecs intelligents comme essentiels à l\'innovation'
         ]
       },
       {
         id: 'ai-bias-fairness',
         text: 'Do you regularly check for and address fairness and bias in your AI algorithms?',
+        textFr: 'Vérifiez-vous et traitez-vous régulièrement l\'équité et les biais dans vos algorithmes IA ?',
         description: 'Regular bias monitoring ensures AI systems make fair decisions and avoid discriminatory outcomes.',
+        descriptionFr: 'La surveillance régulière des biais garantit que les systèmes IA prennent des décisions équitables et évitent les résultats discriminatoires.',
         type: 'radio',
         required: true,
         options: [
@@ -1526,12 +1678,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Occasionally, on a project basis',
           'Regularly, using automated tools or audits',
           'Continuously monitored and adjusted'
+        ],
+        optionsFr: [
+          'Jamais',
+          'Occasionnellement, sur une base de projet',
+          'Régulièrement, en utilisant des outils automatisés ou audits',
+          'Surveillé et ajusté en continu'
         ]
       },
       {
         id: 'cross-border-data-compliance',
         text: 'Do you have protocols for handling cross-border data transfers and compliance with data sovereignty laws?',
+        textFr: 'Avez-vous des protocoles pour gérer les transferts de données transfrontaliers et la conformité aux lois de souveraineté des données ?',
         description: 'International data compliance is crucial for global AI deployments and avoiding regulatory penalties.',
+        descriptionFr: 'La conformité internationale des données est cruciale pour les déploiements IA globaux et éviter les pénalités réglementaires.',
         type: 'radio',
         required: true,
         options: [
@@ -1539,6 +1699,12 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Limited awareness, ad hoc approach',
           'Formal protocols for key markets',
           'Comprehensive and regularly reviewed for all markets'
+        ],
+        optionsFr: [
+          'Aucun protocole en place',
+          'Conscience limitée, approche ad hoc',
+          'Protocoles formels pour les marchés clés',
+          'Complet et révisé régulièrement pour tous les marchés'
         ]
       }
     ]
@@ -1552,27 +1718,34 @@ export const assessmentSections: AssessmentSectionData[] = [
     detailedDescription: 'This information helps us provide personalized insights and recommendations tailored to your specific context and industry.',
     detailedDescriptionFr: 'Cette section collecte les informations nécessaires pour personnaliser votre rapport de maturité IA, segmenter vos réponses par profil d\'entreprise, et suivre les niveaux de maturité par secteurs, géographies et tailles organisationnelles. Toutes les données sont stockées de manière sécurisée et utilisées uniquement pour générer des insights sur mesure.',
     weight: '5%',
+    weightFr: '5%',
     estimatedTime: '3-4 minutes',
     estimatedTimeFr: '3–4 minutes',
     questions: [
       {
         id: 'email',
         text: 'Where should we send your personalized report?',
+        textFr: 'Où devons-nous envoyer votre rapport personnalisé ?',
         description: 'Required for delivering your assessment results and insights.',
+        descriptionFr: 'Requis pour livrer vos résultats d\'évaluation et insights.',
         type: 'text',
         required: true
       },
       {
         id: 'full-name',
         text: 'Full Name',
+        textFr: 'Nom complet',
         description: 'Used for personalization and direct communication.',
+        descriptionFr: 'Utilisé pour la personnalisation et communication directe.',
         type: 'text',
         required: true
       },
       {
         id: 'role',
         text: 'Select the option that best describes your role:',
+        textFr: 'Sélectionnez l\'option qui décrit le mieux votre rôle :',
         description: 'Your role helps us tailor recommendations to your perspective and responsibilities.',
+        descriptionFr: 'Votre rôle nous aide à adapter les recommandations à votre perspective et responsabilités.',
         type: 'dropdown',
         required: true,
         options: [
@@ -1582,22 +1755,43 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Product',
           'Technical',
           'Other'
+        ],
+        optionsFr: [
+          'Fondateur',
+          'Direction / Cadre dirigeant',
+          'Opérations',
+          'Produit',
+          'Technique',
+          'Autre'
         ]
       },
       {
         id: 'company-name',
         text: 'Company Name',
+        textFr: 'Nom de l\'entreprise',
         description: 'Optional field for report personalization.',
+        descriptionFr: 'Champ optionnel pour la personnalisation du rapport.',
         type: 'text',
         required: true
       },
       {
         id: 'company-size',
         text: 'How many people work at your company?',
+        textFr: 'Combien de personnes travaillent dans votre entreprise ?',
         description: 'Company size affects our recommendations for AI implementation scale and approach.',
+        descriptionFr: 'La taille de l\'entreprise affecte nos recommandations pour l\'échelle et l\'approche d\'implémentation IA.',
         type: 'dropdown',
         required: true,
         options: [
+          '1–5',
+          '6–10',
+          '11–20',
+          '21–50',
+          '51–100',
+          '101–250',
+          '251+'
+        ],
+        optionsFr: [
           '1–5',
           '6–10',
           '11–20',
@@ -1610,7 +1804,9 @@ export const assessmentSections: AssessmentSectionData[] = [
       {
         id: 'country',
         text: 'Country',
+        textFr: 'Pays',
         description: 'Used for regional compliance and regulatory considerations.',
+        descriptionFr: 'Utilisé pour la conformité régionale et les considérations réglementaires.',
         type: 'dropdown',
         required: true,
         options: [
@@ -1813,7 +2009,9 @@ export const assessmentSections: AssessmentSectionData[] = [
       {
         id: 'sector-industry',
         text: 'Sector / Industry',
+        textFr: 'Secteur / Industrie',
         description: 'Industry context helps us provide sector-specific AI recommendations.',
+        descriptionFr: 'Le contexte industriel nous aide à fournir des recommandations IA spécifiques au secteur.',
         type: 'dropdown',
         required: true,
         options: [
@@ -1844,7 +2042,9 @@ export const assessmentSections: AssessmentSectionData[] = [
       {
         id: 'annual-revenue',
         text: 'What is your company\'s approximate annual revenue?',
+        textFr: 'Quel est le chiffre d\'affaires annuel approximatif de votre entreprise ?',
         description: 'Revenue range helps us recommend AI solutions appropriate for your scale and budget.',
+        descriptionFr: 'La fourchette de revenus nous aide à recommander des solutions IA appropriées pour votre échelle et budget.',
         type: 'dropdown',
         required: true,
         options: [
@@ -1853,35 +2053,60 @@ export const assessmentSections: AssessmentSectionData[] = [
           '€1M–5M',
           '€5M–20M',
           'More than €20M'
+        ],
+        optionsFr: [
+          'Moins de 250k €',
+          '250k–1M €',
+          '1M–5M €',
+          '5M–20M €',
+          'Plus de 20M €'
         ]
       },
       {
         id: 'regulated-industry',
         text: 'Does your business operate in a regulated industry (e.g., healthcare, finance, etc.)?',
+        textFr: 'Votre entreprise opère-t-elle dans une industrie réglementée (ex. santé, finance, etc.) ?',
         description: 'Regulatory status affects compliance requirements for AI implementations.',
+        descriptionFr: 'Le statut réglementaire affecte les exigences de conformité pour les implémentations IA.',
         type: 'radio',
         required: true,
         options: [
           'Yes',
           'No',
           'Not sure'
+        ],
+        optionsFr: [
+          'Oui',
+          'Non',
+          'Pas sûr'
         ]
       },
       {
         id: 'website',
         text: 'Website',
+        textFr: 'Site web',
         description: 'Optional field for additional context.',
+        descriptionFr: 'Champ optionnel pour contexte supplémentaire.',
         type: 'text',
         required: true
       },
       {
         id: 'personal-ai-maturity',
         text: 'How would you rate your personal familiarity with AI tools?',
+        textFr: 'Comment évalueriez-vous votre familiarité personnelle avec les outils IA ?',
         description: 'Your personal AI experience helps us calibrate recommendations to your knowledge level.',
+        descriptionFr: 'Votre expérience IA personnelle nous aide à calibrer les recommandations selon votre niveau de connaissance.',
         type: 'radio',
         required: true,
         options: [
           '1 (Beginner)',
+          '2',
+          '3',
+          '4',
+          '5 (Expert)'
+        ],
+        optionsFr: [
+          '1 (Débutant)',
           '2',
           '3',
           '4',
@@ -1891,7 +2116,9 @@ export const assessmentSections: AssessmentSectionData[] = [
       {
         id: 'team-ai-maturity',
         text: 'How would you rate your team\'s overall AI familiarity and usage?',
+        textFr: 'Comment évalueriez-vous la familiarité et l\'usage IA global de votre équipe ?',
         description: 'Team AI maturity affects implementation complexity and training requirements.',
+        descriptionFr: 'La maturité IA de l\'équipe affecte la complexité d\'implémentation et les exigences de formation.',
         type: 'radio',
         required: true,
         options: [
@@ -1900,18 +2127,32 @@ export const assessmentSections: AssessmentSectionData[] = [
           '3',
           '4',
           '5 (Fully integrated)'
+        ],
+        optionsFr: [
+          '1 (Aucune)',
+          '2',
+          '3',
+          '4',
+          '5 (Entièrement intégrée)'
         ]
       },
       {
         id: 'priority-timeframe',
         text: 'What timeframe best reflects your current AI priorities?',
+        textFr: 'Quel délai reflète le mieux vos priorités IA actuelles ?',
         description: 'Priority timeframe helps us recommend the right balance of quick wins vs. strategic investments.',
+        descriptionFr: 'Le délai prioritaire nous aide à recommander le bon équilibre entre gains rapides et investissements stratégiques.',
         type: 'radio',
         required: true,
         options: [
           'Quick Wins (0–1 month)',
           'Mid-Term ROI (1–3 months)',
           'Long-Term Strategy (3–6 months)'
+        ],
+        optionsFr: [
+          'Gains rapides (0–1 mois)',
+          'ROI moyen terme (1–3 mois)',
+          'Stratégie long terme (3–6 mois)'
         ]
       }
     ]
