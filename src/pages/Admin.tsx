@@ -1,350 +1,385 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Crown, Users, BarChart3, Settings, RefreshCw, FileText, Download, TrendingUp, Clock, AlertTriangle, TestTube } from 'lucide-react';
-import { assessmentService, AssessmentSubmission } from '@/services/assessmentService';
-import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
-import { analyticsService, AssessmentAnalytics } from '@/services/analyticsService';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Download, Users, FileText, Calendar, Mail, Eye, Search } from 'lucide-react';
+import { toast } from '@/hooks/use-toast';
+import { SubmissionDetails } from '@/components/admin/SubmissionDetails';
+import { AdvancedFilters } from '@/components/admin/AdvancedFilters';
+import { DataVisualization } from '@/components/admin/DataVisualization';
+import { BulkActions } from '@/components/admin/BulkActions';
 
-export default function Admin() {
-  const [submissions, setSubmissions] = useState<AssessmentSubmission[]>([]);
-  const [analytics, setAnalytics] = useState<AssessmentAnalytics | null>(null);
+interface FilterState {
+  search: string;
+  status: string;
+  dateRange: {
+    from?: Date;
+    to?: Date;
+  };
+  emailDomain: string;
+}
+
+const Admin = () => {
+  const [submissions, setSubmissions] = useState<any[]>([]);
+  const [answers, setAnswers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [analyticsLoading, setAnalyticsLoading] = useState(true);
-  const { toast } = useToast();
+  const [selectedSubmission, setSelectedSubmission] = useState<any>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [filters, setFilters] = useState<FilterState>({
+    search: '',
+    status: '',
+    dateRange: {},
+    emailDomain: '',
+  });
 
-  const fetchSubmissions = async () => {
+  const fetchData = async () => {
     setLoading(true);
     try {
-      const result = await assessmentService.getSubmissions();
-      if (result.success && result.data) {
-        setSubmissions(result.data);
-      } else {
-        toast({
-          title: 'Error',
-          description: result.error || 'Failed to fetch submissions',
-          variant: 'destructive',
-        });
-      }
+      const [submissionsData, answersData] = await Promise.all([
+        supabase.from('assessment_submissions').select('*').order('created_at', { ascending: false }),
+        supabase.from('assessment_answers').select('*')
+      ]);
+
+      if (submissionsData.error) throw submissionsData.error;
+      if (answersData.error) throw answersData.error;
+
+      setSubmissions(submissionsData.data || []);
+      setAnswers(answersData.data || []);
     } catch (error) {
+      console.error('Error fetching data:', error);
       toast({
-        title: 'Error',
-        description: 'Failed to fetch submissions',
-        variant: 'destructive',
+        title: "Error",
+        description: "Failed to fetch data",
+        variant: "destructive",
       });
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchAnalytics = async () => {
-    setAnalyticsLoading(true);
-    try {
-      const result = await analyticsService.getAnalytics();
-      if (result.success && result.data) {
-        setAnalytics(result.data);
-      } else {
-        toast({
-          title: 'Analytics Error',
-          description: result.error || 'Failed to fetch analytics',
-          variant: 'destructive',
-        });
+  // Filtered submissions based on current filters
+  const filteredSubmissions = useMemo(() => {
+    return submissions.filter(submission => {
+      // Search filter
+      if (filters.search) {
+        const searchLower = filters.search.toLowerCase();
+        const matchesSearch = 
+          submission.user_email?.toLowerCase().includes(searchLower) ||
+          submission.user_name?.toLowerCase().includes(searchLower) ||
+          submission.id.toLowerCase().includes(searchLower);
+        if (!matchesSearch) return false;
       }
-    } catch (error) {
-      toast({
-        title: 'Analytics Error',
-        description: 'Failed to fetch analytics data',
-        variant: 'destructive',
-      });
-    } finally {
-      setAnalyticsLoading(false);
-    }
-  };
 
-  const handleTestSubmission = async () => {
-    try {
-      const result = await assessmentService.testSubmission();
-      if (result.success) {
-        toast({
-          title: 'Test Submission Successful',
-          description: `Test data submitted successfully. ID: ${result.submissionId}`,
-        });
-        // Refresh data after test submission
-        fetchSubmissions();
-        fetchAnalytics();
-      } else {
-        toast({
-          title: 'Test Submission Failed',
-          description: result.error || 'Failed to submit test data',
-          variant: 'destructive',
-        });
+      // Status filter
+      if (filters.status && submission.status !== filters.status) {
+        return false;
       }
-    } catch (error) {
-      toast({
-        title: 'Test Submission Error',
-        description: 'An unexpected error occurred',
-        variant: 'destructive',
-      });
-    }
-  };
 
-  const exportAnalytics = () => {
-    try {
-      const data = analyticsService.exportAnalyticsData();
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `assessment-analytics-${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
-      
-      toast({
-        title: 'Export Successful',
-        description: 'Analytics data has been downloaded',
-      });
-    } catch (error) {
-      toast({
-        title: 'Export Failed',
-        description: 'Failed to export analytics data',
-        variant: 'destructive',
-      });
-    }
-  };
+      // Email domain filter
+      if (filters.emailDomain && submission.user_email) {
+        const domain = submission.user_email.split('@')[1];
+        if (!domain?.toLowerCase().includes(filters.emailDomain.toLowerCase())) {
+          return false;
+        }
+      }
+
+      // Date range filter
+      if (filters.dateRange.from || filters.dateRange.to) {
+        const submissionDate = new Date(submission.created_at);
+        if (filters.dateRange.from && submissionDate < filters.dateRange.from) {
+          return false;
+        }
+        if (filters.dateRange.to && submissionDate > filters.dateRange.to) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [submissions, filters]);
 
   useEffect(() => {
-    fetchSubmissions();
-    fetchAnalytics();
-
-    // Set up real-time subscription for new submissions
-    const channel = supabase
-      .channel('admin-submissions')
+    fetchData();
+    
+    // Set up real-time subscription
+    const submissionsChannel = supabase
+      .channel('assessment-submissions-changes')
       .on(
         'postgres_changes',
         {
-          event: 'INSERT',
+          event: '*',
           schema: 'public',
           table: 'assessment_submissions'
         },
         () => {
-          // Refresh submissions and analytics when new ones are added
-          fetchSubmissions();
-          fetchAnalytics();
-          toast({
-            title: 'New Submission',
-            description: 'A new assessment submission has been received',
-          });
+          fetchData();
         }
       )
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      supabase.removeChannel(submissionsChannel);
     };
   }, []);
 
+  const exportToCSV = (submissionsToExport = filteredSubmissions) => {
+    const csvContent = submissionsToExport.map(submission => ({
+      id: submission.id,
+      email: submission.user_email || '',
+      name: submission.user_name || '',
+      status: submission.status,
+      created_at: new Date(submission.created_at).toLocaleDateString(),
+      updated_at: new Date(submission.updated_at).toLocaleDateString(),
+    }));
+
+    const csv = [
+      'ID,Email,Name,Status,Created At,Updated At',
+      ...csvContent.map(row => 
+        Object.values(row).map(value => `"${value}"`).join(',')
+      )
+    ].join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'assessment-submissions.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Export successful",
+      description: "CSV file has been downloaded",
+    });
+  };
+
+  const handleBulkDelete = async (ids: string[]) => {
+    const { error } = await supabase
+      .from('assessment_submissions')
+      .delete()
+      .in('id', ids);
+
+    if (error) {
+      throw error;
+    }
+
+    // Refresh data
+    fetchData();
+  };
+
+  const handleExportSelected = (ids: string[]) => {
+    const selectedSubmissions = submissions.filter(s => ids.includes(s.id));
+    exportToCSV(selectedSubmissions);
+  };
+
+  const toggleSelection = (id: string) => {
+    setSelectedIds(prev => 
+      prev.includes(id) 
+        ? prev.filter(selectedId => selectedId !== id)
+        : [...prev, id]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    setSelectedIds(prev => 
+      prev.length === filteredSubmissions.length 
+        ? [] 
+        : filteredSubmissions.map(s => s.id)
+    );
+  };
+
+  const resetFilters = () => {
+    setFilters({
+      search: '',
+      status: '',
+      dateRange: {},
+      emailDomain: '',
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground flex items-center gap-2">
-              <Crown className="w-8 h-8 text-primary" />
-              Admin Dashboard
-            </h1>
-            <p className="text-muted-foreground mt-2">Manage your AI assessment platform</p>
-          </div>
-          <Button
-            onClick={handleTestSubmission}
-            variant="outline"
-            className="flex items-center gap-2"
-          >
-            <TestTube className="w-4 h-4" />
-            Test Submission
-          </Button>
-        </div>
+    <div className="container mx-auto p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+        <Button onClick={() => exportToCSV()} variant="outline">
+          <Download className="h-4 w-4 mr-2" />
+          Export All
+        </Button>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Total Submissions */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                Submissions
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{analytics?.total_submissions || submissions.length}</div>
-              <p className="text-xs text-muted-foreground">Total assessments</p>
-            </CardContent>
-          </Card>
+      <Tabs defaultValue="overview" className="space-y-6">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="submissions">Submissions</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+        </TabsList>
 
-          {/* Completion Rate */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="w-5 h-5" />
-                Completion Rate
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{analytics?.completion_rate.toFixed(1) || '0'}%</div>
-              <p className="text-xs text-muted-foreground">Assessment completion</p>
-            </CardContent>
-          </Card>
+        <TabsContent value="overview" className="space-y-6">
+          {/* Analytics Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Total Submissions</CardTitle>
+                <Users className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{submissions.length}</div>
+                <p className="text-xs text-muted-foreground">
+                  +{submissions.filter(s => 
+                    new Date(s.created_at) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+                  ).length} this week
+                </p>
+              </CardContent>
+            </Card>
 
-          {/* Average Time */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="w-5 h-5" />
-                Avg. Time
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{Math.round((analytics?.average_time_spent || 1200) / 60)}</div>
-              <p className="text-xs text-muted-foreground">Minutes to complete</p>
-            </CardContent>
-          </Card>
-
-          {/* System Status */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings className="w-5 h-5" />
-                System
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-600">Active</div>
-              <p className="text-xs text-muted-foreground">Platform operational</p>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Analytics Dashboard */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-          {/* Section Completion Rates */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Section Completion Rates</CardTitle>
-              <p className="text-sm text-muted-foreground">How often each section is completed</p>
-            </CardHeader>
-            <CardContent>
-              {analyticsLoading ? (
-                <p className="text-muted-foreground">Loading analytics...</p>
-              ) : analytics?.section_completion_rates ? (
-                <div className="space-y-3">
-                  {Object.entries(analytics.section_completion_rates).map(([sectionId, rate]) => (
-                    <div key={sectionId} className="flex items-center justify-between">
-                      <span className="text-sm capitalize">{sectionId.replace('-', ' ')}</span>
-                      <div className="flex items-center gap-2">
-                        <div className="w-20 bg-muted rounded-full h-2">
-                          <div 
-                            className="bg-primary h-2 rounded-full transition-all"
-                            style={{ width: `${rate}%` }}
-                          />
-                        </div>
-                        <span className="text-sm font-medium w-12">{rate.toFixed(1)}%</span>
-                      </div>
-                    </div>
-                  ))}
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Completed Assessments</CardTitle>
+                <FileText className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {submissions.filter(s => s.status === 'submitted').length}
                 </div>
-              ) : (
-                <p className="text-muted-foreground">No completion data available</p>
-              )}
-            </CardContent>
-          </Card>
+                <p className="text-xs text-muted-foreground">
+                  {Math.round((submissions.filter(s => s.status === 'submitted').length / submissions.length) * 100) || 0}% completion rate
+                </p>
+              </CardContent>
+            </Card>
 
-          {/* Drop-off Points */}
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Recent Activity</CardTitle>
+                <Calendar className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {submissions.filter(s => 
+                    new Date(s.created_at) > new Date(Date.now() - 24 * 60 * 60 * 1000)
+                  ).length}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  submissions today
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Unique Domains</CardTitle>
+                <Mail className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">
+                  {new Set(
+                    submissions
+                      .filter(s => s.user_email)
+                      .map(s => s.user_email.split('@')[1])
+                  ).size}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  organizations represented
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="submissions" className="space-y-6">
+          {/* Filters */}
+          <AdvancedFilters
+            filters={filters}
+            onFiltersChange={setFilters}
+            onReset={resetFilters}
+          />
+
+          {/* Bulk Actions */}
+          <BulkActions
+            selectedIds={selectedIds}
+            onClearSelection={() => setSelectedIds([])}
+            onBulkDelete={handleBulkDelete}
+            onExportSelected={handleExportSelected}
+            submissions={submissions}
+          />
+
+          {/* Submissions Table */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <div>
-                <CardTitle>Drop-off Analysis</CardTitle>
-                <p className="text-sm text-muted-foreground">Sections where users most often leave</p>
+              <CardTitle>Assessment Submissions ({filteredSubmissions.length})</CardTitle>
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  checked={selectedIds.length === filteredSubmissions.length && filteredSubmissions.length > 0}
+                  onCheckedChange={toggleSelectAll}
+                />
+                <span className="text-sm text-muted-foreground">Select All</span>
               </div>
-              <Button onClick={exportAnalytics} size="sm" variant="outline">
-                <Download className="w-4 h-4 mr-2" />
-                Export
-              </Button>
             </CardHeader>
             <CardContent>
-              {analyticsLoading ? (
-                <p className="text-muted-foreground">Loading analytics...</p>
-              ) : analytics?.drop_off_points && analytics.drop_off_points.length > 0 ? (
-                <div className="space-y-3">
-                  {analytics.drop_off_points.slice(0, 5).map((dropOff, index) => (
-                    <div key={dropOff.section_id} className="flex items-center gap-3">
-                      <AlertTriangle className="w-4 h-4 text-orange-500" />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">{dropOff.section_name}</p>
-                        <p className="text-xs text-muted-foreground">{dropOff.drop_off_rate.toFixed(1)}% drop-off rate</p>
+              {loading ? (
+                <div className="text-center py-8">Loading...</div>
+              ) : filteredSubmissions.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  No submissions found
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {filteredSubmissions.map((submission) => (
+                    <div key={submission.id} className="flex items-center gap-4 p-4 border rounded-lg">
+                      <Checkbox
+                        checked={selectedIds.includes(submission.id)}
+                        onCheckedChange={() => toggleSelection(submission.id)}
+                      />
+                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 flex-1">
+                        <div>
+                          <strong>Email:</strong> {submission.user_email || 'N/A'}
+                        </div>
+                        <div>
+                          <strong>Name:</strong> {submission.user_name || 'N/A'}
+                        </div>
+                        <div>
+                          <strong>Status:</strong>{' '}
+                          <Badge variant={submission.status === 'submitted' ? 'default' : 'secondary'}>
+                            {submission.status}
+                          </Badge>
+                        </div>
+                        <div>
+                          <strong>Submitted:</strong> {new Date(submission.created_at).toLocaleDateString()}
+                        </div>
                       </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setSelectedSubmission(submission)}
+                      >
+                        <Eye className="h-4 w-4 mr-1" />
+                        View
+                      </Button>
                     </div>
                   ))}
                 </div>
-              ) : (
-                <p className="text-muted-foreground">No drop-off data available</p>
               )}
             </CardContent>
           </Card>
-        </div>
+        </TabsContent>
 
-        {/* Assessment Submissions */}
-        <Card className="mt-8">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <div>
-              <CardTitle>Assessment Submissions</CardTitle>
-              <p className="text-muted-foreground text-sm">Recent assessment submissions from users</p>
-            </div>
-            <div className="flex gap-2">
-              <Button onClick={() => { fetchSubmissions(); fetchAnalytics(); }} disabled={loading || analyticsLoading} size="sm" variant="outline">
-                <RefreshCw className={`w-4 h-4 mr-2 ${(loading || analyticsLoading) ? 'animate-spin' : ''}`} />
-                Refresh
-              </Button>
-              <Button onClick={exportAnalytics} size="sm" variant="outline">
-                <Download className="w-4 h-4 mr-2" />
-                Export Data
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <p className="text-muted-foreground">Loading submissions...</p>
-            ) : submissions.length === 0 ? (
-              <p className="text-muted-foreground">No submissions yet</p>
-            ) : (
-              <div className="space-y-4">
-                {submissions.map((submission) => (
-                  <div key={submission.id} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="space-y-1">
-                      <p className="font-medium">
-                        {submission.user_name || 'Anonymous User'} 
-                        {submission.user_email && (
-                          <span className="text-muted-foreground ml-2">({submission.user_email})</span>
-                        )}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Submitted: {new Date(submission.created_at || '').toLocaleDateString()}
-                      </p>
-                      <p className="text-xs text-muted-foreground">ID: {submission.id}</p>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Badge variant={submission.status === 'submitted' ? 'default' : 'secondary'}>
-                        {submission.status}
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
+        <TabsContent value="analytics" className="space-y-6">
+          <DataVisualization submissions={submissions} />
+        </TabsContent>
+      </Tabs>
+
+      {/* Submission Details Modal */}
+      <SubmissionDetails
+        submission={selectedSubmission}
+        isOpen={!!selectedSubmission}
+        onClose={() => setSelectedSubmission(null)}
+      />
     </div>
   );
-}
+};
+
+export default Admin;
