@@ -450,52 +450,85 @@ export const assessmentSections: AssessmentSectionData[] = [
   {
     id: 'data-maturity',
     title: 'Data Maturity & Governance',
+    titleFr: 'Maturité des données et gouvernance',
     description: 'Assesses your data infrastructure, governance, privacy, and security controls to determine if your data foundation is ready for AI.',
+    descriptionFr: 'Cette section évalue l\'architecture data de votre organisation, les contrôles qualité, les pratiques de gouvernance et la préparation en matière de confidentialité.',
     detailedDescription: 'Your data foundation is critical for AI success. This section evaluates how well-structured, governed, and secure your data is.',
-    weight: '15%',
-    estimatedTime: '5-6 minutes',
+    detailedDescriptionFr: 'Cette section évalue l\'architecture data de votre organisation, les contrôles qualité, les pratiques de gouvernance et la préparation en matière de confidentialité. Elle aide à évaluer si vos données peuvent soutenir de manière fiable les efforts d\'IA et d\'automatisation, tant sur le plan opérationnel que réglementaire.',
+    weight: '25%',
+    weightFr: '25%',
+    estimatedTime: '6–8 minutes',
+    estimatedTimeFr: '6–8 minutes',
     questions: [
       {
         id: 'data-storage',
-        text: 'Where do you keep your critical business data?',
-        description: 'Understanding your data storage helps us assess integration complexity and recommend appropriate AI solutions.',
+        text: 'Where are your business-critical data stored?',
+        textFr: 'Où sont stockées les données métier critiques de votre entreprise ?',
         type: 'multiselect',
         required: true,
         options: [
           'Google Sheets / Excel',
           'Airtable / Notion',
+          'CRM (e.g. HubSpot, Salesforce)',
           'Internal database / data warehouse',
-          'CRM (e.g., HubSpot, Salesforce)',
-          'Cloud storage (e.g., Drive, Dropbox, S3)',
+          'Cloud storage (e.g. Drive, Dropbox, S3)',
           'External SaaS tools / silos',
-          'Not centralized yet',
+          'Not yet centralized',
           'Other'
+        ],
+        optionsFr: [
+          'Google Sheets / Excel',
+          'Airtable / Notion',
+          'CRM (ex. HubSpot, Salesforce)',
+          'Base de données interne / entrepôt de données',
+          'Stockage cloud (ex. Drive, Dropbox, S3)',
+          'Outils SaaS externes / silos',
+          'Pas encore centralisé',
+          'Autre'
         ]
       },
       {
-        id: 'data-consistency',
-        text: 'How standardized is your data structure and labeling across systems?',
-        description: 'Consistent data structure is essential for reliable AI model performance and accurate insights.',
-        type: 'radio',
+        id: 'data-types-managed',
+        text: 'What types of structured data does your team actively maintain?',
+        textFr: 'Quels types de données structurées votre équipe maintient-elle activement ?',
+        type: 'multiselect',
         required: true,
         options: [
-          'Not structured at all',
-          'Partially structured in some tools',
-          'Mostly structured and tagged with conventions',
-          'Fully standardized, documented, and version-controlled'
+          'Customer / user data',
+          'Product usage events',
+          'Operations / logistics data',
+          'Financial and billing data',
+          'Survey responses / feedback',
+          'System logs / telemetry',
+          'No structured data yet'
+        ],
+        optionsFr: [
+          'Données clients / utilisateurs',
+          'Événements d\'utilisation produit',
+          'Données opérationnelles / logistiques',
+          'Données financières et de facturation',
+          'Réponses d\'enquêtes / commentaires',
+          'Journaux système / télémétrie',
+          'Aucune donnée structurée pour l\'instant'
         ]
       },
       {
-        id: 'data-governance',
-        text: 'Do you have a formal data governance policy?',
-        description: 'Data governance ensures data quality, security, and compliance - critical for enterprise AI deployment.',
-        type: 'radio',
+        id: 'data-structure-types',
+        text: 'What types of data structure do you regularly manage?',
+        textFr: 'Quels types de structure de données gérez-vous régulièrement ?',
+        type: 'multiselect',
         required: true,
         options: [
-          'None in place',
-          'Informal guidelines only',
-          'Policy exists for critical data assets',
-          'Formal policy applied across all teams with enforcement'
+          'Structured (e.g. tables, CSV, SQL)',
+          'Semi-structured (e.g. JSON, XML, YAML)',
+          'Unstructured (e.g. PDFs, emails, images, audio)',
+          'No classification done yet'
+        ],
+        optionsFr: [
+          'Structurées (ex. tableaux, CSV, SQL)',
+          'Semi-structurées (ex. JSON, XML, YAML)',
+          'Non structurées (ex. PDF, emails, images, audio)',
+          'Aucune classification effectuée pour l\'instant'
         ]
       },
       {
