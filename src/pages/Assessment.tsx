@@ -25,6 +25,7 @@ const Assessment = () => {
     isComplete, 
     getProgress, 
     getSectionProgress,
+    getFirstUnansweredQuestion,
     errors,
     isAutoSaving,
     clearDraft
@@ -38,7 +39,10 @@ const Assessment = () => {
 
   // Scroll to top when section changes and track analytics
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Force scroll to very top of page
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
     
     // Track section start
     const section = assessmentSections[currentSection];
@@ -87,11 +91,26 @@ const Assessment = () => {
     } else {
       // Show validation alert
       setShowValidationAlert(true);
-      // Scroll to first error
+      
+      // Find and scroll to first unanswered question
+      const firstUnansweredId = getFirstUnansweredQuestion(currentSection);
       setTimeout(() => {
-        const firstError = document.querySelector('[data-error="true"]');
-        if (firstError) {
-          firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (firstUnansweredId) {
+          const element = document.querySelector(`[data-question-id="${firstUnansweredId}"]`);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Try to focus the input element
+            const input = element.querySelector('input, select, textarea');
+            if (input) {
+              (input as HTMLElement).focus();
+            }
+          }
+        } else {
+          // Fallback to first error element
+          const firstError = document.querySelector('[data-error="true"]');
+          if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
         }
       }, 100);
     }

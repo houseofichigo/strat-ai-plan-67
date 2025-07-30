@@ -24,6 +24,7 @@ export const AssessmentSection: React.FC<AssessmentSectionProps> = ({
     <div className="space-y-6">
       {section.questions.map((question, questionIndex) => {
         const value = sectionData[question.id] || (question.type === 'multiselect' ? [] : '');
+        const questionId = `${section.id}-${question.id}`;
         
         const commonProps = {
           question,
@@ -32,16 +33,22 @@ export const AssessmentSection: React.FC<AssessmentSectionProps> = ({
           sectionId: section.id
         };
 
+        const questionWrapper = (component: React.ReactNode) => (
+          <div key={question.id} data-question-id={questionId}>
+            {component}
+          </div>
+        );
+
         switch (question.type) {
           case 'radio':
-            return <QuestionRadio key={question.id} {...commonProps} value={value as string} />;
+            return questionWrapper(<QuestionRadio {...commonProps} value={value as string} />);
           case 'multiselect':
-            return <QuestionMultiSelect key={question.id} {...commonProps} value={value as string[]} />;
+            return questionWrapper(<QuestionMultiSelect {...commonProps} value={value as string[]} />);
           case 'dropdown':
-            return <QuestionDropdown key={question.id} {...commonProps} value={value as string} />;
+            return questionWrapper(<QuestionDropdown {...commonProps} value={value as string} />);
           case 'text':
           case 'textarea':
-            return <QuestionText key={question.id} {...commonProps} value={value as string} />;
+            return questionWrapper(<QuestionText {...commonProps} value={value as string} />);
           default:
             return null;
         }

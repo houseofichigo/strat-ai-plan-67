@@ -57,10 +57,7 @@ export const useAssessmentForm = () => {
         // Only load if saved within last 24 hours
         if (new Date().getTime() - new Date(timestamp).getTime() < 24 * 60 * 60 * 1000) {
           setFormData(data);
-          toast({
-            title: 'Draft Restored',
-            description: 'Your previous answers have been restored.',
-          });
+          // Removed toast notification for draft restoration
         }
       }
     } catch (error) {
@@ -134,6 +131,19 @@ export const useAssessmentForm = () => {
     return isValid;
   };
 
+  const getFirstUnansweredQuestion = (sectionIndex: number): string | null => {
+    const section = assessmentSections[sectionIndex];
+    const sectionData = formData[section.id] || {};
+    
+    for (const question of section.questions) {
+      const answer = sectionData[question.id];
+      if (!answer || (Array.isArray(answer) && answer.length === 0) || answer === '') {
+        return `${section.id}-${question.id}`;
+      }
+    }
+    return null;
+  };
+
   const isComplete = (): boolean => {
     return assessmentSections.every((_, index) => validateSection(index));
   };
@@ -195,6 +205,7 @@ export const useAssessmentForm = () => {
     getError,
     getProgress,
     getSectionProgress,
+    getFirstUnansweredQuestion,
     errors,
     isAutoSaving,
     clearDraft
