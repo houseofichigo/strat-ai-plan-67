@@ -17,6 +17,7 @@ const Assessment = () => {
   const [currentSection, setCurrentSection] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [showValidationAlert, setShowValidationAlert] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [sectionStartTime, setSectionStartTime] = useState(Date.now());
   const { 
     formData, 
@@ -74,6 +75,9 @@ const Assessment = () => {
   };
 
   const handleNext = async () => {
+    // Prevent multiple submissions
+    if (isSubmitting) return;
+    
     // Hide any previous alerts
     setShowValidationAlert(false);
     
@@ -86,6 +90,7 @@ const Assessment = () => {
       if (currentSection < totalSections - 1) {
         setCurrentSection(currentSection + 1);
       } else {
+        setIsSubmitting(true); // Set submitting state
         await handleSubmit();
       }
     } else {
@@ -117,7 +122,7 @@ const Assessment = () => {
   };
 
   const handleSubmit = async () => {
-    if (isComplete()) {
+    if (isComplete() && !isSubmitting) {
       try {
         // Extract email from form data for submission
         const email = formData['metadata-respondent-info']?.['email'] || 'user@example.com';
@@ -142,6 +147,7 @@ const Assessment = () => {
           clearDraft(); // Clear saved draft after successful submission
           navigate('/thank-you', { state: { formData } });
         } else {
+          setIsSubmitting(false); // Reset on failure
           toast({
             title: 'Submission Failed',
             description: result.error || 'Failed to submit assessment',
@@ -149,6 +155,7 @@ const Assessment = () => {
           });
         }
       } catch (error) {
+        setIsSubmitting(false); // Reset on error
         toast({
           title: 'Submission Error',
           description: 'An unexpected error occurred',
@@ -314,11 +321,21 @@ const Assessment = () => {
           
           <Button
             onClick={handleNext}
+            disabled={isSubmitting}
             className="flex items-center gap-2 w-full sm:w-auto order-3"
             variant={currentSection === totalSections - 1 ? "default" : "default"}
           >
-            {currentSection === totalSections - 1 ? 'Complete Assessment' : 'Next'}
-            <ChevronRight className="w-4 h-4" />
+            {isSubmitting ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              <>
+                {currentSection === totalSections - 1 ? 'Complete Assessment' : 'Next'}
+                <ChevronRight className="w-4 h-4" />
+              </>
+            )}
           </Button>
         </div>
       </div>
