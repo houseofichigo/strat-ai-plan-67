@@ -7,6 +7,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Download, Users, FileText, Calendar, Mail, Eye, Search } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import { assessmentService } from '@/services/assessmentService';
 import { SubmissionDetails } from '@/components/admin/SubmissionDetails';
 import { AdvancedFilters } from '@/components/admin/AdvancedFilters';
 import { DataVisualization } from '@/components/admin/DataVisualization';
@@ -38,16 +39,25 @@ const Admin = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [submissionsData, answersData] = await Promise.all([
-        supabase.from('assessment_submissions').select('*').order('created_at', { ascending: false }),
-        supabase.from('assessment_answers').select('*')
+      // Use the assessment service to get properly formatted data
+      const [submissionsResult, answersResult] = await Promise.all([
+        assessmentService.getSubmissions(),
+        assessmentService.getDetailedAnswers()
       ]);
 
-      if (submissionsData.error) throw submissionsData.error;
-      if (answersData.error) throw answersData.error;
+      if (submissionsResult.success && submissionsResult.data) {
+        setSubmissions(submissionsResult.data);
+      } else {
+        console.error('Error fetching submissions:', submissionsResult.error);
+        setSubmissions([]);
+      }
 
-      setSubmissions(submissionsData.data || []);
-      setAnswers(answersData.data || []);
+      if (answersResult.success && answersResult.data) {
+        setAnswers(answersResult.data);
+      } else {
+        console.error('Error fetching answers:', answersResult.error);
+        setAnswers([]);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
       toast({
@@ -55,6 +65,8 @@ const Admin = () => {
         description: "Failed to fetch data",
         variant: "destructive",
       });
+      setSubmissions([]);
+      setAnswers([]);
     } finally {
       setLoading(false);
     }
@@ -159,17 +171,32 @@ const Admin = () => {
   };
 
   const handleBulkDelete = async (ids: string[]) => {
-    const { error } = await supabase
-      .from('assessment_submissions')
-      .delete()
-      .in('id', ids);
+    try {
+      // Delete from Supabase using a direct query since we don't have a service method for this
+      const { error } = await supabase
+        .from('assessment_submissions')
+        .delete()
+        .in('id', ids);
 
-    if (error) {
-      throw error;
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Success",
+        description: `Deleted ${ids.length} submission(s)`,
+      });
+
+      // Refresh data
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting submissions:', error);
+      toast({
+        title: "Error",
+        description: "Failed to delete submissions",
+        variant: "destructive",
+      });
     }
-
-    // Refresh data
-    fetchData();
   };
 
   const handleExportSelected = (ids: string[]) => {
@@ -206,10 +233,31 @@ const Admin = () => {
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <Button onClick={() => exportToCSV()} variant="outline">
-          <Download className="h-4 w-4 mr-2" />
-          Export All
-        </Button>
+        <div className="flex gap-2">
+          <Button onClick={() => {
+            assessmentService.testSubmission().then(result => {
+              if (result.success) {
+                toast({
+                  title: "Test Submission Created",
+                  description: `Created test submission with ID: ${result.submissionId}`,
+                });
+                fetchData(); // Refresh the data
+              } else {
+                toast({
+                  title: "Test Failed",
+                  description: result.error || "Failed to create test submission",
+                  variant: "destructive",
+                });
+              }
+            });
+          }} variant="outline">
+            Add Test Data
+          </Button>
+          <Button onClick={() => exportToCSV()} variant="outline">
+            <Download className="h-4 w-4 mr-2" />
+            Export All
+          </Button>
+        </div>
       </div>
 
       <Tabs defaultValue="overview" className="space-y-6">

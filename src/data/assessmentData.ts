@@ -636,10 +636,14 @@ export const assessmentSections: AssessmentSectionData[] = [
   {
     id: 'technical-infrastructure',
     title: 'Technical Infrastructure',
+    titleFr: 'Infrastructure technique',
     description: 'Assesses your technology stack, integration reliability, automation maturity, and readiness to scale AI-driven workflows.',
+    descriptionFr: 'Cette section évalue la robustesse de votre stack technologique — comment les données circulent entre les outils, comment les intégrations sont maintenues, et si votre infrastructure peut supporter l\'IA évolutive, l\'automatisation et la prise de décision basée sur les données.',
     detailedDescription: 'Your technical foundation determines how easily we can integrate AI solutions and scale them across your organization.',
+    detailedDescriptionFr: 'Cette section évalue la robustesse de votre stack technologique — comment les données circulent entre les outils, comment les intégrations sont maintenues, et si votre infrastructure peut supporter l\'IA évolutive, l\'automatisation et la prise de décision basée sur les données.',
     weight: '15%',
-    estimatedTime: '5-6 minutes',
+    estimatedTime: '5–6 minutes',
+    estimatedTimeFr: '5–6 minutes',
     questions: [
       {
         id: 'digital-platforms',
@@ -1278,10 +1282,14 @@ export const assessmentSections: AssessmentSectionData[] = [
   {
     id: 'metadata-respondent-info',
     title: 'Metadata & Respondent Info',
+    titleFr: 'Métadonnées et informations du répondant',
     description: 'Used to personalize your report, segment results, and ensure relevant recommendations.',
+    descriptionFr: 'Cette section collecte les informations nécessaires pour personnaliser votre rapport de maturité IA, segmenter vos réponses par profil d\'entreprise, et suivre les niveaux de maturité par secteurs, géographies et tailles organisationnelles.',
     detailedDescription: 'This information helps us provide personalized insights and recommendations tailored to your specific context and industry.',
+    detailedDescriptionFr: 'Cette section collecte les informations nécessaires pour personnaliser votre rapport de maturité IA, segmenter vos réponses par profil d\'entreprise, et suivre les niveaux de maturité par secteurs, géographies et tailles organisationnelles. Toutes les données sont stockées de manière sécurisée et utilisées uniquement pour générer des insights sur mesure.',
     weight: '5%',
     estimatedTime: '3-4 minutes',
+    estimatedTimeFr: '3–4 minutes',
     questions: [
       {
         id: 'email',
