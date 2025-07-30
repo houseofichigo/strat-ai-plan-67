@@ -129,6 +129,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          organization_id: string | null
           status: string
           submission_data: Json
           updated_at: string
@@ -139,6 +140,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          organization_id?: string | null
           status?: string
           submission_data: Json
           updated_at?: string
@@ -149,12 +151,98 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          organization_id?: string | null
           status?: string
           submission_data?: Json
           updated_at?: string
           user_email?: string | null
           user_id?: string | null
           user_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessment_submissions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organization_analytics: {
+        Row: {
+          average_time_spent: number | null
+          completion_rate: number | null
+          created_at: string | null
+          id: string
+          last_activity: string | null
+          metadata: Json | null
+          organization_id: string | null
+          total_submissions: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          average_time_spent?: number | null
+          completion_rate?: number | null
+          created_at?: string | null
+          id?: string
+          last_activity?: string | null
+          metadata?: Json | null
+          organization_id?: string | null
+          total_submissions?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          average_time_spent?: number | null
+          completion_rate?: number | null
+          created_at?: string | null
+          id?: string
+          last_activity?: string | null
+          metadata?: Json | null
+          organization_id?: string | null
+          total_submissions?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "organization_analytics_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: true
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          country: string | null
+          created_at: string | null
+          domain: string | null
+          id: string
+          industry: string | null
+          name: string
+          size_category: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string | null
+          domain?: string | null
+          id?: string
+          industry?: string | null
+          name: string
+          size_category?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string | null
+          domain?: string | null
+          id?: string
+          industry?: string | null
+          name?: string
+          size_category?: string | null
+          updated_at?: string | null
         }
         Relationships: []
       }
@@ -163,6 +251,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      get_or_create_organization: {
+        Args: { user_email: string }
+        Returns: string
+      }
       get_user_license: {
         Args: { _user_id: string }
         Returns: string

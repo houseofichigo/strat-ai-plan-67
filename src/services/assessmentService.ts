@@ -18,6 +18,17 @@ export const assessmentService = {
     userName?: string;
   }): Promise<{ success: boolean; submissionId?: string; error?: string }> {
     try {
+      // Get or create organization if user has email
+      let organizationId = null;
+      if (data.userEmail) {
+        const { data: orgId, error: orgError } = await supabase
+          .rpc('get_or_create_organization', { user_email: data.userEmail });
+        
+        if (!orgError) {
+          organizationId = orgId;
+        }
+      }
+
       // First, create the main submission
       const { data: submission, error: submissionError } = await supabase
         .from('assessment_submissions')
@@ -25,6 +36,7 @@ export const assessmentService = {
           submission_data: data.formData,
           user_email: data.userEmail,
           user_name: data.userName,
+          organization_id: organizationId,
           status: 'submitted'
         })
         .select('id')

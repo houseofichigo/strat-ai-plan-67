@@ -12,6 +12,7 @@ import { SubmissionDetails } from '@/components/admin/SubmissionDetails';
 import { AdvancedFilters } from '@/components/admin/AdvancedFilters';
 import { EnhancedAnalytics } from '@/components/admin/EnhancedAnalytics';
 import { BulkActions } from '@/components/admin/BulkActions';
+import { PremiumAdminDashboard } from '@/components/admin/PremiumAdminDashboard';
 
 interface FilterState {
   search: string;
@@ -25,6 +26,7 @@ interface FilterState {
 
 const Admin = () => {
   const [submissions, setSubmissions] = useState<any[]>([]);
+  const [organizations, setOrganizations] = useState<any[]>([]);
   const [answers, setAnswers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSubmission, setSelectedSubmission] = useState<any>(null);
@@ -40,9 +42,10 @@ const Admin = () => {
     setLoading(true);
     try {
       // Use the assessment service to get properly formatted data
-      const [submissionsResult, answersResult] = await Promise.all([
+      const [submissionsResult, answersResult, organizationsResult] = await Promise.all([
         assessmentService.getSubmissions(),
-        assessmentService.getDetailedAnswers()
+        assessmentService.getDetailedAnswers(),
+        supabase.from('organizations').select('*').order('created_at', { ascending: false })
       ]);
 
       if (submissionsResult.success && submissionsResult.data) {
@@ -57,6 +60,13 @@ const Admin = () => {
       } else {
         console.error('Error fetching answers:', answersResult.error);
         setAnswers([]);
+      }
+
+      if (organizationsResult.data) {
+        setOrganizations(organizationsResult.data);
+      } else if (organizationsResult.error) {
+        console.error('Error fetching organizations:', organizationsResult.error);
+        setOrganizations([]);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -260,12 +270,23 @@ const Admin = () => {
         </div>
       </div>
 
-      <Tabs defaultValue="overview" className="space-y-6">
-        <TabsList>
+      <Tabs defaultValue="dashboard" className="space-y-6">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="dashboard">Executive Dashboard</TabsTrigger>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="submissions">Submissions</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="dashboard" className="space-y-6">
+          <PremiumAdminDashboard 
+            submissions={submissions} 
+            organizations={organizations}
+            analytics={{
+              completion_rate: Math.round((submissions.filter(s => s.status === 'submitted').length / Math.max(submissions.length, 1)) * 100)
+            }}
+          />
+        </TabsContent>
 
         <TabsContent value="overview" className="space-y-6">
           {/* Analytics Cards */}
