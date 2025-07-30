@@ -6,6 +6,7 @@ import { CheckCircle, ArrowLeft, Star, TrendingUp, Shield, Lightbulb, Rocket, Ex
 import { useNavigate } from 'react-router-dom';
 import { FormData } from '@/data/assessmentData';
 import { useToast } from '@/hooks/use-toast';
+import { useTranslation } from 'react-i18next';
 interface ThankYouProps {
   formData?: FormData;
 }
@@ -13,9 +14,8 @@ export default function ThankYou({
   formData
 }: ThankYouProps) {
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+  const { t } = useTranslation();
   const handleBackToAssessment = () => {
     navigate('/');
   };
@@ -45,11 +45,11 @@ export default function ThankYou({
           </div>
           
           <h1 className="text-5xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent mb-4">
-            🎉 Assessment Complete!
+            🎉 {t('thankYou.title')}
           </h1>
           
           <p className="text-xl text-muted-foreground mb-2 max-w-2xl mx-auto">
-            Congratulations! You've successfully completed your AI Readiness Assessment.
+            {t('thankYou.message')}
           </p>
           
           
@@ -60,7 +60,7 @@ export default function ThankYou({
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Lightbulb className="w-5 h-5 text-primary" />
-              What's Next?
+              {t('thankYou.whatNext')}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -157,12 +157,12 @@ export default function ThankYou({
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button onClick={handleBackToAssessment} variant="outline" className="flex items-center gap-2">
             <ArrowLeft className="w-4 h-4" />
-            Take Another Assessment
+            {t('thankYou.retakeAssessment')}
           </Button>
           
           <Button onClick={handleVisitWebsite} className="flex items-center gap-2">
             <ExternalLink className="w-4 h-4" />
-            Visit House of Ichigo Website
+            {t('thankYou.visitWebsite')}
           </Button>
         </div>
 

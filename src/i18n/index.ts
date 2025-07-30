@@ -147,6 +147,7 @@ const resources = {
   },
   fr: {
     translation: {
+      // Navigation
       nav: {
         dashboard: 'Tableau de Bord',
         assessment: 'Évaluation',
@@ -163,6 +164,44 @@ const resources = {
         services: 'Services',
         gdpr: 'RGPD',
       },
+      // Assessment
+      assessment: {
+        title: "Évaluation de la Préparation à l'IA",
+        subtitle: 'Découvrez la maturité de votre organisation en matière d\'IA et obtenez des recommandations personnalisées',
+        welcome: 'Bienvenue dans notre évaluation de préparation à l\'IA',
+        description: 'Cette évaluation complète analysera les capacités de votre organisation en matière d\'IA et fournira des recommandations sur mesure.',
+        getStarted: 'Commencer l\'Évaluation',
+        progress: 'Progression',
+        section: 'Section',
+        of: 'sur',
+        next: 'Suivant',
+        back: 'Précédent',
+        submit: 'Soumettre',
+        completeAssessment: 'Terminer l\'Évaluation',
+        submitting: 'Soumission en cours...',
+        required: 'Obligatoire',
+        optional: 'Optionnel',
+        skipSection: 'Ignorer cette Section',
+        sectionComplete: 'Section Terminée',
+        allSectionsComplete: 'Toutes les Sections Terminées',
+        validationError: 'Veuillez répondre à toutes les questions obligatoires avant de continuer.',
+        submissionSuccess: 'Évaluation soumise avec succès !',
+        submissionError: 'Erreur lors de la soumission de l\'évaluation',
+        draftSaved: 'Brouillon sauvegardé automatiquement',
+        draftRestored: 'Votre brouillon a été restauré',
+        sections: {
+          'organizational-readiness': 'Préparation Organisationnelle',
+          'data-infrastructure': 'Infrastructure des Données',
+          'technology-capabilities': 'Capacités Technologiques',
+          'ai-strategy': 'Stratégie IA',
+          'talent-resources': 'Talents et Ressources',
+          'governance-ethics': 'Gouvernance et Éthique',
+          'use-cases': 'Cas d\'Usage',
+          'investment-roi': 'Investissement et ROI',
+          'metadata-respondent-info': 'Informations du Répondant'
+        }
+      },
+      // Onboarding
       onboarding: {
         welcome: "Bienvenue sur la Plateforme de Préparation à l'IA",
         step1Title: 'Effectuez votre Évaluation',
@@ -176,6 +215,7 @@ const resources = {
         back: 'Retour',
         finish: 'Commencer',
       },
+      // Progress
       progress: {
         notStarted: 'Non Commencé',
         inProgress: 'En Cours',
@@ -185,6 +225,7 @@ const resources = {
         training: 'Progrès de Formation',
         workflows: 'Progrès des Flux',
       },
+      // Notifications
       notifications: {
         title: 'Notifications',
         markAllRead: 'Tout Marquer comme Lu',
@@ -194,6 +235,7 @@ const resources = {
         completion: 'Rappel de Finalisation',
         general: 'Général',
       },
+      // Common
       common: {
         save: 'Enregistrer',
         cancel: 'Annuler',
@@ -204,6 +246,38 @@ const resources = {
         success: 'Succès',
         warning: 'Avertissement',
         info: 'Information',
+        yes: 'Oui',
+        no: 'Non',
+        continue: 'Continuer',
+        close: 'Fermer',
+      },
+      // Solutions
+      solutions: {
+        title: 'agents et flux de travail',
+        allSolutions: 'Toutes les Solutions',
+        aiAgents: 'Agents IA',
+        workflows: 'Flux de Travail',
+        totalSolutions: 'Total des Solutions',
+        featured: 'Solutions Vedettes',
+        trending: 'Tendances Actuelles',
+        quickWins: 'Gains Rapides',
+        highROI: 'Solutions à ROI Élevé',
+        newArrivals: 'Nouveautés',
+      },
+      // Thank You Page
+      thankYou: {
+        title: 'Merci !',
+        subtitle: 'Votre évaluation a été soumise avec succès',
+        message: 'Nous apprécions le temps que vous avez consacré à notre évaluation de préparation à l\'IA.',
+        whatNext: 'Quelle est la prochaine étape ?',
+        reportDescription: 'Notre équipe d\'experts analysera vos réponses et préparera un rapport détaillé sur votre préparation à l\'IA avec des recommandations personnalisées.',
+        timeframe: 'Vous recevrez votre rapport dans les 2-3 jours ouvrables.',
+        retakeAssessment: 'Refaire l\'Évaluation',
+        visitWebsite: 'Visiter notre Site Web',
+        keyTakeaways: 'Points Clés à Retenir',
+        takeaway1: 'Votre voyage vers l\'IA commence maintenant',
+        takeaway2: 'Restez informé des dernières tendances en IA',
+        takeaway3: 'Préparez-vous pour la transformation numérique'
       }
     }
   }

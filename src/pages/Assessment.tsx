@@ -12,6 +12,8 @@ import { assessmentService } from '@/services/assessmentService';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import { analyticsService } from '@/services/analyticsService';
+import { useTranslation } from 'react-i18next';
+import { LanguageSelector } from '@/components/language/LanguageSelector';
 
 const Assessment = () => {
   const [currentSection, setCurrentSection] = useState(0);
@@ -33,6 +35,7 @@ const Assessment = () => {
   } = useAssessmentForm();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const totalSections = assessmentSections.length;
   const progressInfo = getProgress();
@@ -184,6 +187,11 @@ const Assessment = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container mx-auto px-4 py-6 sm:py-8 max-w-4xl">
+        {/* Language Selector */}
+        <div className="flex justify-end mb-4">
+          <LanguageSelector />
+        </div>
+        
         {/* Progress Header */}
         <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
@@ -197,17 +205,17 @@ const Assessment = () => {
                 />
               </div>
               <div className="hidden sm:block h-8 w-px bg-border mx-2"></div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">AI Maturity Assessment</h1>
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">{t('assessment.title')}</h1>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
               <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
                 {isAutoSaving && (
                   <div className="flex items-center gap-1">
                     <Save className="w-3 h-3 animate-pulse" />
-                    <span className="hidden sm:inline">Saving...</span>
+                    <span className="hidden sm:inline">{t('common.save')}...</span>
                   </div>
                 )}
-                <span>Section {currentSection + 1} of {totalSections}</span>
+                <span>{t('assessment.section')} {currentSection + 1} {t('assessment.of')} {totalSections}</span>
               </div>
             </div>
           </div>
@@ -286,15 +294,15 @@ const Assessment = () => {
 
         {/* Navigation - Enhanced Mobile */}
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sticky bottom-4 bg-background/95 backdrop-blur-sm p-3 sm:p-4 rounded-lg border shadow-lg">
-          <Button
-            variant="outline"
-            onClick={handlePrevious}
-            disabled={currentSection === 0}
-            className="flex items-center gap-2 w-full sm:w-auto order-2 sm:order-1"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Previous
-          </Button>
+            <Button
+              variant="outline"
+              onClick={handlePrevious}
+              disabled={currentSection === 0}
+              className="flex items-center gap-2 w-full sm:w-auto order-2 sm:order-1"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              {t('assessment.back')}
+            </Button>
           
           <div className="flex gap-1 sm:gap-2 order-1 sm:order-2">
             {assessmentSections.map((_, index) => {
@@ -328,11 +336,11 @@ const Assessment = () => {
             {isSubmitting ? (
               <>
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Submitting...
+                {t('assessment.submitting')}
               </>
             ) : (
               <>
-                {currentSection === totalSections - 1 ? 'Complete Assessment' : 'Next'}
+                {currentSection === totalSections - 1 ? t('assessment.completeAssessment') : t('assessment.next')}
                 <ChevronRight className="w-4 h-4" />
               </>
             )}
