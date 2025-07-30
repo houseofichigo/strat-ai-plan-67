@@ -4,13 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
   CheckCircle, 
-  Download, 
   ArrowLeft, 
   Star,
   TrendingUp,
   Shield,
   Lightbulb,
-  Rocket
+  Rocket,
+  ExternalLink,
+  Mail
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { FormData } from '@/data/assessmentData';
@@ -23,34 +24,12 @@ interface ThankYouProps {
 export default function ThankYou({ formData }: ThankYouProps) {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
-
-  const handleDownloadReport = async () => {
-    setIsGeneratingPdf(true);
-    try {
-      // TODO: Implement PDF generation
-      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate PDF generation
-      toast({
-        title: "Report Generated!",
-        description: "Your AI Readiness Report has been downloaded successfully.",
-      });
-    } catch (error) {
-      toast({
-        title: "Generation Failed",
-        description: "There was an error generating your report. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsGeneratingPdf(false);
-    }
-  };
-
   const handleBackToAssessment = () => {
     navigate('/');
   };
 
-  const handleGoToAdmin = () => {
-    navigate('/admin');
+  const handleVisitWebsite = () => {
+    window.open('https://www.houseofichigo.com', '_blank');
   };
 
   return (
@@ -110,15 +89,15 @@ export default function ThankYou({ formData }: ThankYouProps) {
                   <Shield className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
                 <h3 className="font-semibold mb-2">Assessment Complete</h3>
-                <p className="text-sm text-muted-foreground">7 comprehensive areas evaluated with detailed analysis</p>
+                <p className="text-sm text-muted-foreground">8 comprehensive areas evaluated with detailed analysis</p>
               </div>
               
               <div className="text-center">
                 <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mx-auto mb-3">
                   <TrendingUp className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                 </div>
-                <h3 className="font-semibold mb-2">Get Your Report</h3>
-                <p className="text-sm text-muted-foreground">Download your personalized AI readiness report</p>
+                <h3 className="font-semibold mb-2">Report Coming Soon</h3>
+                <p className="text-sm text-muted-foreground">We'll email your personalized report within 3 business days</p>
               </div>
               
               <div className="text-center">
@@ -134,18 +113,24 @@ export default function ThankYou({ formData }: ThankYouProps) {
 
         {/* Primary CTA */}
         <div className="text-center mb-8">
-          <Button 
-            onClick={handleDownloadReport}
-            disabled={isGeneratingPdf}
-            size="lg"
-            className="bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-          >
-            <Download className="w-5 h-5 mr-2" />
-            {isGeneratingPdf ? 'Generating Report...' : 'Download Your AI Readiness Report'}
-          </Button>
-          <p className="text-sm text-muted-foreground mt-2">
-            Get your complete assessment results with personalized recommendations
-          </p>
+          <div className="bg-gradient-to-r from-primary/10 to-transparent p-6 rounded-xl">
+            <div className="flex items-center justify-center gap-3 mb-3">
+              <Mail className="w-6 h-6 text-primary" />
+              <h2 className="text-xl font-semibold">Your Report is Being Prepared</h2>
+            </div>
+            <p className="text-muted-foreground mb-4 max-w-2xl mx-auto">
+              Our AI experts are analyzing your responses to create a comprehensive, personalized readiness report 
+              with actionable recommendations tailored specifically to your organization.
+            </p>
+            <div className="bg-white/50 dark:bg-muted/50 p-4 rounded-lg border">
+              <p className="text-sm font-medium text-primary">
+                📧 We'll email your detailed AI Readiness Report within 3 business days
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                Check your inbox (and spam folder) for your personalized assessment results
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Report Preview */}
@@ -159,7 +144,7 @@ export default function ThankYou({ formData }: ThankYouProps) {
                 <Badge variant="secondary" className="mt-1">✓</Badge>
                 <div>
                   <h4 className="font-semibold">AI Readiness Score</h4>
-                  <p className="text-sm text-muted-foreground">Overall assessment across all 7 key areas</p>
+                  <p className="text-sm text-muted-foreground">Overall assessment across all 8 key areas</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -199,12 +184,11 @@ export default function ThankYou({ formData }: ThankYouProps) {
           </Button>
           
           <Button 
-            onClick={handleGoToAdmin}
-            variant="outline"
+            onClick={handleVisitWebsite}
             className="flex items-center gap-2"
           >
-            <Shield className="w-4 h-4" />
-            View Admin Dashboard
+            <ExternalLink className="w-4 h-4" />
+            Visit House of Ichigo Website
           </Button>
         </div>
 
