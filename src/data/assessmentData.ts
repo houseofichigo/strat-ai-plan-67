@@ -1,20 +1,29 @@
 export interface AssessmentQuestion {
   id: string;
   text: string;
+  textFr?: string;
   description?: string;
+  descriptionFr?: string;
   type: 'radio' | 'multiselect' | 'dropdown' | 'text' | 'textarea';
   options?: string[];
+  optionsFr?: string[];
   required: boolean;
   tooltip?: string;
+  tooltipFr?: string;
 }
 
 export interface AssessmentSectionData {
   id: string;
   title: string;
+  titleFr?: string;
   description: string;
+  descriptionFr?: string;
   detailedDescription?: string;
+  detailedDescriptionFr?: string;
   weight: string;
+  weightFr?: string;
   estimatedTime: string;
+  estimatedTimeFr?: string;
   questions: AssessmentQuestion[];
 }
 
@@ -28,15 +37,19 @@ export const assessmentSections: AssessmentSectionData[] = [
   {
     id: 'business-strategy',
     title: 'Business Strategy & Use-Case Readiness',
+    titleFr: 'Stratégie métier et préparation des cas d\'usage',
     description: 'Evaluates how clearly your business sees the opportunity for AI, how well near-term use-cases are defined, and how these initiatives align with broader business goals.',
+    descriptionFr: 'Cette section évalue si votre organisation possède une compréhension claire de la façon dont l\'IA peut soutenir la croissance de l\'entreprise, l\'efficacité opérationnelle ou l\'impact client.',
     detailedDescription: 'This section evaluates if your organization has a clear understanding of how AI can support business growth, operational efficiency, or customer impact. It checks alignment between AI initiatives and business strategic objectives, business model maturity, and the ability to execute defined use cases with clear ROI vision.',
+    detailedDescriptionFr: 'Cette section évalue si votre organisation possède une compréhension claire de la façon dont l\'IA peut soutenir la croissance de l\'entreprise, l\'efficacité opérationnelle ou l\'impact client. Elle vérifie l\'alignement entre les initiatives IA et les objectifs stratégiques de l\'entreprise, la maturité des modèles économiques ainsi que la capacité à exécuter des cas d\'usage définis avec une vision claire du retour sur investissement.',
     weight: '10%',
     estimatedTime: '5–7 minutes',
+    estimatedTimeFr: '5–7 minutes',
     questions: [
       {
         id: 'identified-problems',
-        text: 'Have you identified concrete opportunities to apply AI?',
-        description: 'This helps us understand how far along you are in identifying specific business problems that AI could solve.',
+        text: 'Have you identified concrete opportunities to apply AI in the next 6-12 months?',
+        textFr: 'Avez-vous identifié des opportunités concrètes pour appliquer l\'IA au cours des 6 à 12 prochains mois ?',
         type: 'radio',
         required: true,
         options: [
@@ -45,158 +58,208 @@ export const assessmentSections: AssessmentSectionData[] = [
           '1–2 clear use-cases defined',
           'Multiple use-cases aligned to OKRs / growth strategy',
           'Visionary / long-term ideas identified but not near-term'
-        ]
-      },
-      {
-        id: 'roi-quantification',
-        text: 'Have you estimated or modeled the potential benefits of AI?',
-        description: 'Understanding ROI expectations helps us gauge your business case maturity.',
-        type: 'radio',
-        required: true,
-        options: [
-          'No estimates',
-          'Rough top-line estimates',
-          'Basic cost-benefit model',
-          'Detailed projections tied to KPIs and metrics'
-        ]
-      },
-      {
-        id: 'strategic-alignment',
-        text: 'How well are your AI initiatives aligned with your company\'s top business goals or OKRs?',
-        description: 'Strategic alignment ensures AI investments support your broader business objectives.',
-        type: 'radio',
-        required: true,
-        options: [
-          'Not aligned at all',
-          'Some alignment (linked to 1–2 teams or goals)',
-          'Mostly aligned (clear connection to main KPIs/OKRs)',
-          'Fully integrated (AI tied to all strategic objectives and regularly reviewed)',
-          'Unsure / not discussed'
+        ],
+        optionsFr: [
+          'Phase d\'exploration – aucune idée précise pour le moment',
+          'Idées discutées mais non formalisées',
+          '1 à 2 cas d\'usage clairement définis',
+          'Plusieurs cas d\'usage alignés sur les OKR / la stratégie de croissance',
+          'Idées visionnaires / à long terme identifiées mais pas d\'applications à court terme'
         ]
       },
       {
         id: 'use-case-prioritization',
-        text: 'Have you prioritized your AI use-cases based on value and feasibility?',
-        description: 'Prioritization frameworks help focus resources on the most impactful AI initiatives first.',
+        text: 'Have you prioritized your use-cases based on business value and feasibility?',
+        textFr: 'Avez-vous priorisé vos cas d\'usage selon leur valeur métier et leur faisabilité ?',
         type: 'radio',
         required: true,
         options: [
           'No prioritization yet',
-          'Informal prioritization (team discussions only)',
-          'Prioritized by estimated value or quick wins',
-          'Prioritized using a structured framework (impact vs feasibility)',
-          'Prioritized and sequenced with resources and timelines',
-          'Not applicable / unsure'
+          'Informal prioritization (e.g., team discussion)',
+          'Prioritized by perceived value',
+          'Prioritized using methodological framework (impact vs feasibility)',
+          'Prioritized and mapped to internal capabilities and timelines'
+        ],
+        optionsFr: [
+          'Aucune priorisation à ce stade',
+          'Priorisation informelle (ex. discussion d\'équipe)',
+          'Priorisés selon la valeur perçue',
+          'Priorisés via un cadre méthodologique (impact vs faisabilité)',
+          'Priorisés et mappés aux capacités internes et aux échéances'
         ]
       },
       {
-        id: 'primary-objective',
-        text: 'What\'s the main reason you\'re exploring AI?',
-        description: 'Your primary motivation will help us tailor recommendations to your specific goals.',
+        id: 'strategic-alignment',
+        text: 'Are your AI initiatives linked to your existing KPIs or OKRs?',
+        textFr: 'Vos initiatives IA sont-elles liées à vos indicateurs de performance existants (KPI) ou à vos OKR ?',
+        type: 'radio',
+        required: true,
+        options: [
+          'No alignment',
+          'Rough alignment',
+          'Partial alignment (e.g., linked to 1–2 functions)',
+          'Complete alignment across all teams and metrics',
+          'AI initiatives are integrated into executive-level OKRs'
+        ],
+        optionsFr: [
+          'Aucun alignement',
+          'Alignement approximatif',
+          'Alignement partiel (ex. liées à 1–2 fonctions)',
+          'Alignement complet sur l\'ensemble des équipes et métriques',
+          'Les initiatives IA sont intégrées aux OKR au niveau de la direction générale'
+        ]
+      },
+      {
+        id: 'roi-estimation',
+        text: 'Have you estimated the financial or operational impact of your AI use-cases?',
+        textFr: 'Avez-vous estimé l\'impact financier ou opérationnel de vos cas d\'usage IA ?',
+        type: 'radio',
+        required: true,
+        options: [
+          'No estimates',
+          'Rough high-level estimates',
+          'Basic cost-benefit model',
+          'Detailed projections tied to performance indicators and business metrics'
+        ],
+        optionsFr: [
+          'Aucune estimation',
+          'Estimations approximatives de haut niveau',
+          'Modèle coût-bénéfice de base',
+          'Projections détaillées liées aux indicateurs de performance et métriques métier'
+        ]
+      },
+      {
+        id: 'business-model-maturity',
+        text: 'Which description best matches your current business model state?',
+        textFr: 'Quelle description correspond le mieux à l\'état actuel de votre modèle économique ?',
+        type: 'radio',
+        required: true,
+        options: [
+          'Pivot / pre-revenue',
+          'Initial traction with some paying customers',
+          'Repeatable sales with predictable CAC/LTV',
+          'Growth stage with diversified revenue streams'
+        ],
+        optionsFr: [
+          'Pivot / pré-chiffre d\'affaires',
+          'Traction initiale avec quelques clients payants',
+          'Ventes répétables avec CAC/LTV prévisibles',
+          'Phase de croissance avec flux de revenus diversifiés'
+        ]
+      },
+      {
+        id: 'product-market-fit',
+        text: 'Where are you in achieving product-market fit?',
+        textFr: 'Où en êtes-vous dans l\'atteinte de l\'adéquation produit-marché ?',
+        type: 'radio',
+        required: true,
+        options: [
+          'Not yet product-market fit',
+          'In validation phase (pilots, beta users)',
+          'Product-market fit achieved in main market',
+          'Product-market fit + expansion to adjacent/new markets'
+        ],
+        optionsFr: [
+          'Pas encore d\'adéquation produit-marché',
+          'En phase de validation (pilotes, utilisateurs bêta)',
+          'Adéquation produit-marché atteinte sur le marché principal',
+          'Adéquation produit-marché + expansion vers des marchés adjacents/nouveaux'
+        ]
+      },
+      {
+        id: 'competitive-ai-analysis',
+        text: 'Have you analyzed how competitors are using AI?',
+        textFr: 'Avez-vous analysé l\'utilisation de l\'IA par vos concurrents ?',
+        type: 'radio',
+        required: true,
+        options: [
+          'No knowledge',
+          'Informal knowledge through observation',
+          'Documented competitive AI use-cases',
+          'Competitive analysis conducted with strategic implications',
+          'We actively monitor competitor AI deployments'
+        ],
+        optionsFr: [
+          'Aucune connaissance',
+          'Connaissance informelle par observation',
+          'Cas d\'usage IA concurrents documentés',
+          'Analyse concurrentielle réalisée avec implications stratégiques',
+          'Nous surveillons activement les déploiements IA des concurrents'
+        ]
+      },
+      {
+        id: 'primary-ai-objective',
+        text: 'What is the main reason driving you to explore or invest in AI?',
+        textFr: 'Quelle est la raison principale qui vous pousse à explorer ou investir dans l\'IA ?',
         type: 'radio',
         required: true,
         options: [
           'Save time / increase productivity',
-          'Reduce operating costs',
+          'Reduce operational costs',
           'Increase revenue / conversion',
           'Improve customer experience / NPS',
-          'Impress investors / strategic positioning'
+          'Accelerate innovation',
+          'Strategic positioning / investor attractiveness'
+        ],
+        optionsFr: [
+          'Gagner du temps / accroître la productivité',
+          'Réduire les coûts opérationnels',
+          'Augmenter le chiffre d\'affaires / la conversion',
+          'Améliorer l\'expérience client / le NPS',
+          'Accélérer l\'innovation',
+          'Positionnement stratégique / attractivité pour les investisseurs'
         ]
       },
       {
-        id: 'competitive-pressure',
-        text: 'How critical is AI adoption for maintaining competitive advantage in your industry?',
-        description: 'Competitive landscape analysis helps determine urgency and investment level needed.',
-        type: 'radio',
-        required: true,
-        options: [
-          'Not relevant yet - competitors aren\'t using AI',
-          'Some competitors experimenting but not essential',
-          'Early adopters gaining advantages we need to match',
-          'Critical - we risk being left behind without AI',
-          'AI capabilities are essential for our business model'
-        ]
-      },
-      {
-        id: 'decision-speed',
-        text: 'How quickly can your organization typically move from idea to pilot implementation?',
-        description: 'Decision-making speed affects how we recommend structuring your AI implementation roadmap.',
-        type: 'radio',
-        required: true,
-        options: [
-          'Very slow (6+ months) - extensive approvals needed',
-          'Moderate (3-6 months) - structured planning process',
-          'Fast (1-3 months) - streamlined decision-making',
-          'Very fast (under 1 month) - can move quickly on opportunities'
-        ]
-      },
-      {
-        id: 'biggest-blocker',
-        text: 'What\'s the main challenge preventing you from defining AI use-cases?',
-        description: 'Share any specific obstacles you\'re facing. This helps us provide targeted recommendations.',
+        id: 'use-case-definition-blocker',
+        text: 'What is the biggest challenge preventing you from defining your use-cases?',
+        textFr: 'Quel est le plus grand défi qui vous empêche de définir vos cas d\'usage ?',
         type: 'textarea',
-        required: true
-      },
-      {
-        id: 'ai-strategy-owner',
-        text: 'Who is directly responsible for leading and updating your AI strategy?',
-        description: 'Clear ownership ensures AI initiatives have proper guidance, accountability, and strategic direction.',
-        type: 'radio',
-        required: true,
-        options: [
-          'No clear owner',
-          'Executive sponsor (C-level/founder)',
-          'Designated AI lead/team',
-          'Cross-functional committee',
-          'Outsourced/consultant'
-        ]
-      },
-      {
-        id: 'strategy-review-frequency',
-        text: 'How often is your AI strategy formally reviewed and updated?',
-        description: 'Regular strategy reviews ensure your AI initiatives remain aligned with business goals and market changes.',
-        type: 'radio',
-        required: true,
-        options: [
-          'Never',
-          'Ad-hoc/as needed',
-          'Annually',
-          'Bi-annually',
-          'Quarterly or more'
-        ]
+        required: false
       }
     ]
   },
   {
     id: 'financial-readiness',
-    title: 'Financial & Strategic Readiness',
+    title: 'Financial Capacity & Strategic Readiness',
+    titleFr: 'Capacité financière et préparation stratégique',
     description: 'Assesses your current budget capacity, funding runway, investor alignment, and clarity on measuring AI ROI.',
+    descriptionFr: 'Cette section évalue la capacité actuelle et future de votre organisation à financer les initiatives data et IA.',
     detailedDescription: 'Understanding your financial constraints and stakeholder support helps us recommend sustainable AI adoption strategies that fit your budget and timeline.',
+    detailedDescriptionFr: 'Cette section évalue la capacité actuelle et future de votre organisation à financer les initiatives data et IA. Elle examine l\'engagement budgétaire, la durée de financement, l\'alignement des investisseurs ou du conseil d\'administration, ainsi que la capacité à lier les investissements IA à des résultats mesurables et aux cadres de conformité.',
     weight: '10%',
-    estimatedTime: '5 minutes',
+    estimatedTime: '5–7 minutes',
+    estimatedTimeFr: '5–7 minutes',
     questions: [
       {
-        id: 'monthly-budget',
-        text: 'What\'s your current or planned monthly budget for AI projects?',
-        description: 'This helps us recommend solutions that fit your investment capacity and suggest appropriate pilot scales.',
+        id: 'monthly-ai-budget',
+        text: 'What is your current or planned monthly budget for AI and data projects?',
+        textFr: 'Quel est votre budget mensuel actuel ou prévu pour les projets IA et data ?',
         type: 'radio',
         required: true,
         options: [
-          'Less than $100',
-          '$100–300',
-          '$300–1,000',
-          '$1,000–3,000',
-          'Over $3,000',
-          'No budget, but willing to fund initial pilots',
-          'Willing to increase if pilot results are positive',
+          'Less than €100',
+          '€100–300',
+          '€300–1,000',
+          '€1,000–3,000',
+          'Over €3,000',
           'Depends on ROI',
-          'Not sure yet'
+          'Not yet defined'
+        ],
+        optionsFr: [
+          'Moins de 100 €',
+          '100–300 €',
+          '300–1 000 €',
+          '1 000–3 000 €',
+          'Plus de 3 000 €',
+          'Dépend du retour sur investissement',
+          'Pas encore défini'
         ]
       },
       {
-        id: 'annual-budget-share',
-        text: 'How much of your annual tech budget is set aside for data & AI?',
-        description: 'Understanding your strategic allocation helps gauge organizational commitment to AI transformation.',
+        id: 'annual-tech-budget-share',
+        text: 'What percentage of your annual tech budget is allocated to data and AI initiatives?',
+        textFr: 'Quel pourcentage de votre budget technologique annuel est alloué aux initiatives data et IA ?',
         type: 'radio',
         required: true,
         options: [
@@ -204,14 +267,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           '6–15%',
           '16–30%',
           'Over 30%',
-          'No dedicated budget',
-          'Not sure'
+          'No dedicated budget'
+        ],
+        optionsFr: [
+          '0–5%',
+          '6–15%',
+          '16–30%',
+          'Plus de 30%',
+          'Aucun budget dédié'
         ]
       },
       {
-        id: 'funding-runway',
-        text: 'How long could you fund AI initiatives with current resources?',
-        description: 'Your funding runway determines the scope and timeline we can recommend for your AI roadmap.',
+        id: 'ai-funding-duration',
+        text: 'With current resources, how long can you sustain AI/data spending?',
+        textFr: 'Avec les ressources actuelles, combien de temps pouvez-vous maintenir vos dépenses en IA/data ?',
         type: 'radio',
         required: true,
         options: [
@@ -219,34 +288,67 @@ export const assessmentSections: AssessmentSectionData[] = [
           '3–6 months',
           '6–12 months',
           'Over 12 months',
-          'Not sure'
+          'Uncertain'
+        ],
+        optionsFr: [
+          'Moins de 3 mois',
+          '3–6 mois',
+          '6–12 mois',
+          'Plus de 12 mois',
+          'Incertain'
         ]
       },
       {
-        id: 'investor-commitment',
-        text: 'How supportive are your investors or board of AI efforts?',
-        description: 'Stakeholder alignment affects implementation speed and the level of experimentation you can pursue.',
+        id: 'roi-investment-threshold',
+        text: 'What would be your threshold for increasing AI/data investment?',
+        textFr: 'Quel serait votre seuil pour augmenter l\'investissement en IA/data ?',
         type: 'radio',
         required: true,
         options: [
-          'Yes – budget approved and allocated',
-          'Approved in principle, awaiting results',
-          'Discussions in progress',
-          'Not yet, but open to it',
-          'No, not supportive currently'
+          'No additional investment planned',
+          'Would invest if ROI is demonstrable',
+          'Would invest if strategic alignment is clear',
+          'Budget already in proactive increase',
+          'Not sure'
+        ],
+        optionsFr: [
+          'Aucun investissement supplémentaire prévu',
+          'Investirais si le ROI est démontrable',
+          'Investirais si l\'alignement stratégique est clair',
+          'Budget déjà en augmentation proactive',
+          'Pas sûr'
         ]
       },
       {
-        id: 'investor-context',
-        text: 'Share any additional details or concerns from your investors or board.',
-        description: 'Optional context about stakeholder perspectives helps us tailor our recommendations.',
-        type: 'textarea',
-        required: true
+        id: 'investor-board-ai-support',
+        text: 'How supportive are your investors or board of AI initiatives?',
+        textFr: 'À quel point vos investisseurs ou votre conseil d\'administration soutiennent-ils les initiatives IA ?',
+        type: 'radio',
+        required: true,
+        options: [
+          'Yes – budget already approved',
+          'Discussions ongoing',
+          'Not yet – but openness possible',
+          'No support currently'
+        ],
+        optionsFr: [
+          'Oui – budget déjà approuvé',
+          'Discussions en cours',
+          'Pas encore – mais ouverture possible',
+          'Pas de soutien actuellement'
+        ]
       },
       {
-        id: 'expected-timeline',
-        text: 'When do you expect to realize real benefits from AI?',
-        description: 'Your timeline expectations help us recommend the right balance of quick wins vs. strategic investments.',
+        id: 'investor-sentiment-context',
+        text: 'Share any insights, concerns, or enthusiasm your board/investors have expressed about AI.',
+        textFr: 'Partagez tout aperçu, préoccupation ou enthousiasme que votre conseil/investisseurs ont exprimé concernant l\'IA.',
+        type: 'textarea',
+        required: false
+      },
+      {
+        id: 'expected-ai-benefits-timeline',
+        text: 'Within what timeframe do you expect concrete benefits from AI initiatives?',
+        textFr: 'Dans quel délai attendez-vous des bénéfices concrets des initiatives IA ?',
         type: 'radio',
         required: true,
         options: [
@@ -255,12 +357,40 @@ export const assessmentSections: AssessmentSectionData[] = [
           '3–6 months',
           '6–12 months',
           'Over 12 months'
+        ],
+        optionsFr: [
+          'Moins d\'1 mois',
+          '1–3 mois',
+          '3–6 mois',
+          '6–12 mois',
+          'Plus de 12 mois'
         ]
       },
       {
-        id: 'compliance-frameworks',
-        text: 'Which regulatory frameworks apply to your business?',
-        description: 'Compliance requirements affect AI solution design, data handling, and deployment approaches.',
+        id: 'strategic-ai-partnerships',
+        text: 'Do you currently have strategic partnerships to support your AI efforts (e.g., universities, consultants, vendors)?',
+        textFr: 'Avez-vous actuellement des partenariats stratégiques pour soutenir vos efforts IA (ex. universités, consultants, fournisseurs) ?',
+        type: 'radio',
+        required: true,
+        options: [
+          'None currently',
+          'Informal collaboration or vendor discussions',
+          'Signed partnership(s) in place',
+          'Multiple active partnerships across R&D, vendors, and services',
+          'Not applicable'
+        ],
+        optionsFr: [
+          'Aucun pour l\'instant',
+          'Collaboration informelle ou discussions avec fournisseurs',
+          'Partenariat(s) signé(s) en place',
+          'Plusieurs partenariats actifs en R&D, fournisseurs et services',
+          'Non applicable'
+        ]
+      },
+      {
+        id: 'applicable-legal-compliance',
+        text: 'Which regulatory or legal frameworks are relevant to your AI and data use?',
+        textFr: 'Quels cadres réglementaires ou juridiques sont pertinents pour votre utilisation de l\'IA et des données ?',
         type: 'multiselect',
         required: true,
         options: [
@@ -271,80 +401,48 @@ export const assessmentSections: AssessmentSectionData[] = [
           'AI Act (EU)',
           'ISO/IEC 27001',
           'None',
-          'Not sure / researching',
-          'Other'
+          'Uncertain / researching'
+        ],
+        optionsFr: [
+          'RGPD',
+          'HIPAA',
+          'SOC 2',
+          'PCI-DSS',
+          'AI Act (UE)',
+          'ISO/IEC 27001',
+          'Aucun',
+          'Incertain / en recherche'
         ]
       },
       {
-        id: 'success-metrics',
-        text: 'Which metrics will you use to measure AI success?',
-        description: 'Clear success metrics ensure we can track progress and demonstrate ROI from your AI initiatives.',
+        id: 'roi-proof-metrics',
+        text: 'Which metrics will be used to evaluate AI initiative success?',
+        textFr: 'Quelles métriques seront utilisées pour évaluer le succès des initiatives IA ?',
         type: 'multiselect',
         required: true,
         options: [
           'Time saved',
           'Cost reduction',
-          'Revenue uplift',
+          'Revenue increase',
           'Lead generation / conversion',
           'Customer satisfaction / NPS',
           'Operational reliability',
           'Employee engagement',
-          'Model performance (accuracy, precision, etc.)',
-          'Process improvement (cycle time, error reduction)',
-          'We don\'t currently measure success',
+          'Model performance (e.g., accuracy, recall)',
+          'We don\'t measure success yet',
           'Other'
-        ]
-      },
-      {
-        id: 'financial-tracking',
-        text: 'How do you currently measure and track ROI from technology investments?',
-        description: 'Your existing measurement sophistication helps us recommend appropriate tracking approaches for AI.',
-        type: 'radio',
-        required: true,
-        options: [
-          'No systematic tracking – assume success if no major issues',
-          'Basic tracking of costs and obvious benefits',
-          'Good measurement with clear metrics and regular reviews',
-          'Sophisticated analytics with detailed ROI optimization'
-        ]
-      },
-      {
-        id: 'strategic-partnerships',
-        text: 'Do you have partnerships or vendor support for your AI initiatives?',
-        description: 'Existing partnerships can accelerate implementation or may need coordination in our recommendations.',
-        type: 'radio',
-        required: true,
-        options: [
-          'No',
-          'Informal collaborations',
-          'Formal partnerships (signed agreements)',
-          'Multiple partnerships across R&D, vendors, and services'
-        ]
-      },
-      {
-        id: 'ai-budget-prioritization',
-        text: 'How is AI prioritized relative to other technology investments in your budget planning?',
-        description: 'Budget prioritization reflects organizational commitment and determines resource allocation for AI initiatives.',
-        type: 'radio',
-        required: true,
-        options: [
-          'Top priority, receives dedicated funding',
-          'Equal priority to other tech investments',
-          'Lower priority, funded only if surplus',
-          'Not considered separately in budgeting'
-        ]
-      },
-      {
-        id: 'long-term-financial-plan',
-        text: 'Do you have a long-term financial plan to sustain and scale AI investments?',
-        description: 'Long-term financial planning ensures sustainable AI growth and prevents short-term budget constraints from limiting success.',
-        type: 'radio',
-        required: true,
-        options: [
-          'Yes, covers both short- and long-term',
-          'Yes, but only for the next 12 months',
-          'No, planning is ad hoc/project-based',
-          'No plan in place'
+        ],
+        optionsFr: [
+          'Temps économisé',
+          'Réduction des coûts',
+          'Augmentation du chiffre d\'affaires',
+          'Génération / conversion de prospects',
+          'Satisfaction client / NPS',
+          'Fiabilité opérationnelle',
+          'Engagement des employés',
+          'Performance du modèle (ex. précision, rappel)',
+          'Nous ne mesurons pas encore le succès',
+          'Autre'
         ]
       }
     ]

@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import { analyticsService } from '@/services/analyticsService';
 import { useTranslation } from 'react-i18next';
 import { LanguageSelector } from '@/components/language/LanguageSelector';
+import { getLocalizedSection } from '@/utils/assessmentUtils';
 
 const Assessment = () => {
   const [currentSection, setCurrentSection] = useState(0);
@@ -35,7 +36,8 @@ const Assessment = () => {
   } = useAssessmentForm();
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = i18n.language;
 
   const totalSections = assessmentSections.length;
   const progressInfo = getProgress();
@@ -181,7 +183,7 @@ const Assessment = () => {
   };
 
 
-  const currentSectionData = assessmentSections[currentSection];
+  const currentSectionData = getLocalizedSection(assessmentSections[currentSection], language);
   const hasErrors = Object.keys(errors).some(key => key.startsWith(currentSectionData.id));
 
   return (
@@ -321,7 +323,7 @@ const Assessment = () => {
                       ? 'bg-primary/60'
                       : 'bg-muted'
                   }`}
-                  title={`Section ${index + 1}: ${assessmentSections[index].title}`}
+                  title={`Section ${index + 1}: ${getLocalizedSection(assessmentSections[index], language).title}`}
                 />
               );
             })}

@@ -1,11 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { AssessmentQuestion } from '@/data/assessmentData';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
-import { Info } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useAssessmentForm } from '@/hooks/useAssessmentForm';
+import { getLocalizedQuestion } from '@/utils/assessmentUtils';
 
 interface QuestionMultiSelectProps {
   question: AssessmentQuestion;
@@ -16,64 +15,43 @@ interface QuestionMultiSelectProps {
 
 export const QuestionMultiSelect: React.FC<QuestionMultiSelectProps> = ({
   question,
-  value,
+  value = [],
   onChange,
   sectionId
 }) => {
-  const { getError } = useAssessmentForm();
-  const error = getError(sectionId, question.id);
+  const { i18n } = useTranslation();
+  const localizedQuestion = getLocalizedQuestion(question, i18n.language);
 
-  const handleChange = (option: string, checked: boolean) => {
-    if (checked) {
-      onChange([...value, option]);
-    } else {
-      onChange(value.filter(v => v !== option));
-    }
+  const handleOptionToggle = (option: string) => {
+    const newValue = value.includes(option)
+      ? value.filter(v => v !== option)
+      : [...value, option];
+    onChange(newValue);
   };
 
   return (
     <Card className="p-6">
       <div className="space-y-4">
-        <div className="flex items-start gap-2">
-          <div className="flex-1">
-            <Label className="text-base font-medium leading-relaxed">
-              {question.text}
-              {question.required && <span className="text-destructive ml-1">*</span>}
-            </Label>
-            {question.description && (
-              <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-                {question.description}
-              </p>
-            )}
-            <p className="text-sm text-muted-foreground mt-1">Select all that apply</p>
-            {error && (
-              <p className="text-sm text-destructive mt-1">{error}</p>
-            )}
-          </div>
-          {question.tooltip && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <Info className="w-4 h-4 text-muted-foreground" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="max-w-xs">{question.tooltip}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
-        </div>
+        <Label className="text-base font-medium leading-relaxed">
+          {localizedQuestion.text}
+          {localizedQuestion.required && <span className="text-destructive ml-1">*</span>}
+        </Label>
+        {localizedQuestion.description && (
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {localizedQuestion.description}
+          </p>
+        )}
         
-        <div className={`space-y-3 ${error ? 'p-2 border border-destructive/20 rounded-lg' : ''}`} data-error={!!error}>
-          {question.options?.map((option, index) => (
+        <div className="space-y-3">
+          {localizedQuestion.options?.map((option, index) => (
             <div key={index} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
               <Checkbox
-                id={`${question.id}-${index}`}
+                id={`${localizedQuestion.id}-${index}`}
                 checked={value.includes(option)}
-                onCheckedChange={(checked) => handleChange(option, checked as boolean)}
+                onCheckedChange={() => handleOptionToggle(option)}
               />
               <Label 
-                htmlFor={`${question.id}-${index}`}
+                htmlFor={`${localizedQuestion.id}-${index}`}
                 className="flex-1 cursor-pointer leading-relaxed"
               >
                 {option}
