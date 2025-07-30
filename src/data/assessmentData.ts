@@ -978,15 +978,22 @@ export const assessmentSections: AssessmentSectionData[] = [
   {
     id: 'automation-ai-agents',
     title: 'Automation & AI Agents',
+    titleFr: 'Automatisation et Agents IA',
     description: 'Surfaces workflow bottlenecks, automation opportunities, team readiness, and preferences for deploying AI assistants.',
+    descriptionFr: 'Identifie les goulots d\'étranglement des workflows, les opportunités d\'automatisation, la préparation de l\'équipe et les préférences pour déployer des assistants IA.',
     detailedDescription: 'This section identifies the best opportunities for AI agents and automation to maximize your team\'s productivity and efficiency.',
+    detailedDescriptionFr: 'Cette section identifie les meilleures opportunités pour les agents IA et l\'automatisation afin de maximiser la productivité et l\'efficacité de votre équipe.',
     weight: '20%',
+    weightFr: '20%',
     estimatedTime: '6-8 minutes',
+    estimatedTimeFr: '6-8 minutes',
     questions: [
       {
         id: 'repetitive-tasks',
         text: 'Which tasks regularly consume staff time and could be improved or automated?',
+        textFr: 'Quelles tâches consomment régulièrement du temps personnel et pourraient être améliorées ou automatisées ?',
         description: 'Identifying repetitive tasks helps us prioritize the highest-impact AI automation opportunities.',
+        descriptionFr: 'Identifier les tâches répétitives nous aide à prioriser les opportunités d\'automatisation IA à plus fort impact.',
         type: 'multiselect',
         required: true,
         options: [
@@ -998,12 +1005,24 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Internal status updates',
           'Ticket tagging or triage',
           'Other'
+        ],
+        optionsFr: [
+          'Rapports / mises à jour de tableaux de bord',
+          'Planification de réunions ou rappels',
+          'Suivis par email ou Slack',
+          'Saisie de données / copier-coller',
+          'Réponses aux questions clients de routine / FAQ',
+          'Mises à jour de statut interne',
+          'Étiquetage ou triage de tickets',
+          'Autre'
         ]
       },
       {
         id: 'manual-customer-journeys',
         text: 'Which customer-facing processes have excessive manual intervention?',
+        textFr: 'Quels processus orientés client ont une intervention manuelle excessive ?',
         description: 'Customer journey automation can significantly improve experience while reducing team workload.',
+        descriptionFr: 'L\'automatisation du parcours client peut considérablement améliorer l\'expérience tout en réduisant la charge de travail de l\'équipe.',
         type: 'multiselect',
         required: true,
         options: [
@@ -1013,38 +1032,59 @@ export const assessmentSections: AssessmentSectionData[] = [
           'FAQ handling',
           'Community moderation',
           'None / N.A.'
+        ],
+        optionsFr: [
+          'Intégration',
+          'Résolution de demandes de support',
+          'Facturation et paiements',
+          'Gestion des FAQ',
+          'Modération communautaire',
+          'Aucun / N.A.'
         ]
       },
       {
         id: 'automated-alerts',
         text: 'Have you set up automated alerts for your workflows?',
+        textFr: 'Avez-vous configuré des alertes automatisées pour vos workflows ?',
         description: 'Existing alert systems indicate automation maturity and readiness for more sophisticated AI monitoring.',
+        descriptionFr: 'Les systèmes d\'alerte existants indiquent la maturité d\'automatisation et la préparation pour une surveillance IA plus sophistiquée.',
         type: 'radio',
         required: true,
         options: [
           'Yes – fully reliable',
           'Partially – only for critical events',
           'None – manual monitoring'
+        ],
+        optionsFr: [
+          'Oui – entièrement fiable',
+          'Partiellement – uniquement pour les événements critiques',
+          'Aucune – surveillance manuelle'
         ]
       },
       {
         id: 'top-automation-priority',
         text: 'Which process would you prioritize for automation?',
+        textFr: 'Quel processus prioriseriez-vous pour l\'automatisation ?',
         description: 'Understanding your top priority helps us focus our AI recommendations on your most pressing needs.',
+        descriptionFr: 'Comprendre votre priorité principale nous aide à concentrer nos recommandations IA sur vos besoins les plus urgents.',
         type: 'textarea',
         required: true
       },
       {
         id: 'never-automate',
         text: 'Which processes must remain human-managed?',
+        textFr: 'Quels processus doivent rester gérés par des humains ?',
         description: 'Identifying processes that should stay human ensures our AI recommendations respect your business values and requirements.',
+        descriptionFr: 'Identifier les processus qui doivent rester humains garantit que nos recommandations IA respectent vos valeurs métier et exigences.',
         type: 'textarea',
         required: true
       },
       {
         id: 'ai-agent-tasks',
         text: 'Identify areas where an AI assistant could provide immediate value.',
+        textFr: 'Identifiez les domaines où un assistant IA pourrait apporter une valeur immédiate.',
         description: 'These represent the quickest wins for AI agent deployment in your organization.',
+        descriptionFr: 'Celles-ci représentent les gains les plus rapides pour le déploiement d\'agents IA dans votre organisation.',
         type: 'multiselect',
         required: true,
         options: [
@@ -1057,12 +1097,25 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Onboarding flows & checklist enforcement',
           'Monitoring & alerts',
           'Other'
+        ],
+        optionsFr: [
+          'Support client (chat / email)',
+          'Génération de rapports et insights',
+          'Rédaction d\'emails ou messages',
+          'Qualification et scoring de prospects',
+          'Résumé de réunions et actions',
+          'Recherche marché / concurrents',
+          'Flux d\'intégration et application de checklists',
+          'Surveillance et alertes',
+          'Autre'
         ]
       },
       {
         id: 'agent-autonomy',
         text: 'How much control should you retain when using AI assistants?',
+        textFr: 'Combien de contrôle devriez-vous conserver lors de l\'utilisation d\'assistants IA ?',
         description: 'Your comfort with AI autonomy determines the type of agents we recommend and how they\'re deployed.',
+        descriptionFr: 'Votre confort avec l\'autonomie IA détermine le type d\'agents que nous recommandons et comment ils sont déployés.',
         type: 'radio',
         required: true,
         options: [
@@ -1070,12 +1123,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Human-in-the-loop – requires approval before action',
           'Assistant only – suggests, no execution',
           'Not sure yet'
+        ],
+        optionsFr: [
+          'Entièrement autonome – exécution de bout en bout',
+          'Humain dans la boucle – nécessite approbation avant action',
+          'Assistant seulement – suggère, pas d\'exécution',
+          'Pas encore sûr'
         ]
       },
       {
         id: 'agent-interface',
         text: 'How would you prefer to interact with an AI agent?',
+        textFr: 'Comment préféreriez-vous interagir avec un agent IA ?',
         description: 'Interface preference affects user adoption and determines the best deployment approach for your team.',
+        descriptionFr: 'La préférence d\'interface affecte l\'adoption utilisateur et détermine la meilleure approche de déploiement pour votre équipe.',
         type: 'multiselect',
         required: true,
         options: [
@@ -1085,12 +1146,22 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Email-based assistant',
           'Command-line / API',
           'Need guidance'
+        ],
+        optionsFr: [
+          'Chatbot dans Slack / Teams',
+          'Widget intégré (dans Notion, CRM, etc.)',
+          'Interface de tableau de bord autonome',
+          'Assistant basé sur email',
+          'Ligne de commande / API',
+          'Besoin de conseils'
         ]
       },
       {
         id: 'deployment-blockers',
         text: 'What challenges could delay or complicate AI agent deployment?',
+        textFr: 'Quels défis pourraient retarder ou compliquer le déploiement d\'agents IA ?',
         description: 'Understanding potential blockers helps us design implementation strategies that address your specific constraints.',
+        descriptionFr: 'Comprendre les obstacles potentiels nous aide à concevoir des stratégies d\'implémentation qui répondent à vos contraintes spécifiques.',
         type: 'multiselect',
         required: true,
         options: [
@@ -1101,12 +1172,23 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Privacy or compliance concerns',
           'Unclear ROI',
           'Other'
+        ],
+        optionsFr: [
+          'Données pas prêtes / trop en silos',
+          'Équipe pas alignée sur les cas d\'usage',
+          'Manque de support technique',
+          'Contraintes budgétaires',
+          'Préoccupations de confidentialité ou conformité',
+          'ROI peu clair',
+          'Autre'
         ]
       },
       {
         id: 'agent-data-access',
         text: 'Which data sources would an agent need access to?',
+        textFr: 'À quelles sources de données un agent aurait-il besoin d\'accéder ?',
         description: 'Data access requirements help us design secure, effective AI agents that can provide meaningful assistance.',
+        descriptionFr: 'Les exigences d\'accès aux données nous aident à concevoir des agents IA sécurisés et efficaces qui peuvent fournir une assistance significative.',
         type: 'multiselect',
         required: true,
         options: [
@@ -1117,12 +1199,23 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Operations / logistics tables',
           'None / unsure yet',
           'Other'
+        ],
+        optionsFr: [
+          'Dossiers clients / CRM',
+          'Événements d\'utilisation produit',
+          'Données financières / facturation',
+          'Base de connaissances / Docs / FAQ',
+          'Tables opérations / logistique',
+          'Aucune / incertain pour l\'instant',
+          'Autre'
         ]
       },
       {
         id: 'process-documentation',
         text: 'How well documented are your current workflows and processes?',
+        textFr: 'À quel point vos workflows et processus actuels sont-ils bien documentés ?',
         description: 'Process documentation quality affects how quickly we can deploy AI agents and how accurately they can assist your team.',
+        descriptionFr: 'La qualité de la documentation des processus affecte la rapidité avec laquelle nous pouvons déployer des agents IA et leur précision d\'assistance à votre équipe.',
         type: 'radio',
         required: true,
         options: [
@@ -1130,12 +1223,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Basic documentation for some key processes',
           'Good documentation that\'s regularly updated',
           'Comprehensive, detailed process documentation with clear standards'
+        ],
+        optionsFr: [
+          'Principalement non documenté – connaissances dans la tête des gens',
+          'Documentation de base pour certains processus clés',
+          'Bonne documentation mise à jour régulièrement',
+          'Documentation de processus complète et détaillée avec standards clairs'
         ]
       },
       {
         id: 'automation-maturity',
         text: 'How successful have your previous automation efforts been?',
+        textFr: 'À quel point vos efforts d\'automatisation précédents ont-ils été réussis ?',
         description: 'Past automation experience indicates your team\'s readiness for more advanced AI-powered automation.',
+        descriptionFr: 'L\'expérience d\'automatisation passée indique la préparation de votre équipe pour une automatisation plus avancée alimentée par l\'IA.',
         type: 'radio',
         required: true,
         options: [
@@ -1144,12 +1245,21 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Good automation success with reliable workflows for routine tasks',
           'Advanced automation with sophisticated workflows and monitoring',
           'Comprehensive automation strategy with continuous optimization'
+        ],
+        optionsFr: [
+          'Aucune tentative d\'automatisation significative encore',
+          'Automatisation de base avec résultats mitigés et besoins de maintenance fréquents',
+          'Bon succès d\'automatisation avec workflows fiables pour tâches routinières',
+          'Automatisation avancée avec workflows sophistiqués et surveillance',
+          'Stratégie d\'automatisation complète avec optimisation continue'
         ]
       },
       {
         id: 'ai-agent-access-controls',
         text: 'How are permissions and access controls managed for AI agents interacting with sensitive data or systems?',
+        textFr: 'Comment les permissions et contrôles d\'accès sont-ils gérés pour les agents IA interagissant avec des données ou systèmes sensibles ?',
         description: 'Proper access controls ensure AI agents operate securely within appropriate boundaries.',
+        descriptionFr: 'Des contrôles d\'accès appropriés garantissent que les agents IA opèrent de manière sécurisée dans les limites appropriées.',
         type: 'radio',
         required: true,
         options: [
@@ -1157,6 +1267,12 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Manual controls, project by project',
           'Automated access controls for critical systems',
           'Dynamic, real-time access control with auditing'
+        ],
+        optionsFr: [
+          'Aucun contrôle spécifique',
+          'Contrôles manuels, projet par projet',
+          'Contrôles d\'accès automatisés pour systèmes critiques',
+          'Contrôle d\'accès dynamique en temps réel avec audit'
         ]
       }
     ]
