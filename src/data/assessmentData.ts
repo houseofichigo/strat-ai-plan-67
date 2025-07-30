@@ -681,7 +681,9 @@ export const assessmentSections: AssessmentSectionData[] = [
       {
         id: 'digital-platforms',
         text: 'Which digital tools and platforms does your team rely on?',
+        textFr: 'Quels outils et plateformes numériques votre équipe utilise-t-elle ?',
         description: 'Understanding your tech stack helps us recommend AI integrations that work seamlessly with your existing tools.',
+        descriptionFr: 'Comprendre votre stack technologique nous aide à recommander des intégrations IA qui fonctionnent parfaitement avec vos outils existants.',
         type: 'multiselect',
         required: true,
         options: [
@@ -698,12 +700,29 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Finance & Billing (Stripe, QuickBooks, Pennylane)',
           'Automation (Zapier, Make, n8n)',
           'Other'
+        ],
+        optionsFr: [
+          'Communication (Slack, Teams, Discord)',
+          'Docs & Connaissances (Google Docs, Notion, Office 365)',
+          'Suivi de projets & problèmes (Trello, Asana, ClickUp, Jira)',
+          'CRM & Revenus (HubSpot, Salesforce, Pipedrive)',
+          'Design / Créatif (Figma, Canva, Adobe XD)',
+          'Développement & Repos (GitHub, GitLab, Replit)',
+          'Analytics & BI (GA4, Looker, Mixpanel, Amplitude)',
+          'Publicité (Meta Ads, Google Ads, LinkedIn Ads)',
+          'Automatisation marketing (Brevo, Mailchimp, ActiveCampaign)',
+          'E-commerce (Shopify, WooCommerce, Prestashop)',
+          'Finance & Facturation (Stripe, QuickBooks, Pennylane)',
+          'Automatisation (Zapier, Make, n8n)',
+          'Autre'
         ]
       },
       {
         id: 'tool-integration',
         text: 'How well are your tools and systems connected to each other?',
+        textFr: 'À quel point vos outils et systèmes sont-ils connectés entre eux ?',
         description: 'Integration level affects how easily we can deploy AI solutions that work across your entire workflow.',
+        descriptionFr: 'Le niveau d\'intégration affecte la facilité avec laquelle nous pouvons déployer des solutions IA qui fonctionnent dans l\'ensemble de votre workflow.',
         type: 'radio',
         required: true,
         options: [
@@ -711,12 +730,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Partially integrated – key systems only',
           'Mostly siloed – manual exports needed',
           'Not sure'
+        ],
+        optionsFr: [
+          'Entièrement intégré – flux de données transparent',
+          'Partiellement intégré – systèmes clés uniquement',
+          'Principalement en silos – exports manuels nécessaires',
+          'Incertain'
         ]
       },
       {
         id: 'integration-reliability',
         text: 'How stable are your data connections and automations?',
+        textFr: 'Quelle est la stabilité de vos connexions de données et automatisations ?',
         description: 'System reliability determines the level of AI automation we can recommend and trust for critical processes.',
+        descriptionFr: 'La fiabilité du système détermine le niveau d\'automatisation IA que nous pouvons recommander et faire confiance pour les processus critiques.',
         type: 'radio',
         required: true,
         options: [
@@ -724,12 +751,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Occasionally – monthly issues',
           'Rarely – few problems per quarter',
           'Never – reliable'
+        ],
+        optionsFr: [
+          'Fréquemment – problèmes hebdomadaires',
+          'Occasionnellement – problèmes mensuels',
+          'Rarement – quelques problèmes par trimestre',
+          'Jamais – fiable'
         ]
       },
       {
         id: 'implementation-ownership',
         text: 'Who is responsible for implementing tools and integrations?',
+        textFr: 'Qui est responsable de l\'implémentation des outils et intégrations ?',
         description: 'Understanding your technical resources helps us recommend the right level of AI solution complexity.',
+        descriptionFr: 'Comprendre vos ressources techniques nous aide à recommander le bon niveau de complexité des solutions IA.',
         type: 'radio',
         required: true,
         options: [
@@ -737,12 +772,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Operations or product team',
           'External agency / contractor',
           'No dedicated owner'
+        ],
+        optionsFr: [
+          'Équipe technique / ingénierie interne',
+          'Équipe opérations ou produit',
+          'Agence / contractant externe',
+          'Aucun propriétaire dédié'
         ]
       },
       {
         id: 'manual-transfers',
         text: 'Where do you still manually move or copy-paste data?',
+        textFr: 'Où déplacez-vous ou copiez-collez-vous encore manuellement des données ?',
         description: 'Manual data transfers are prime candidates for AI automation and efficiency improvements.',
+        descriptionFr: 'Les transferts manuels de données sont des candidats prioritaires pour l\'automatisation IA et les améliorations d\'efficacité.',
         type: 'multiselect',
         required: true,
         options: [
@@ -751,12 +794,21 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Project tools → docs / slides',
           'Dashboard → dashboard consolidation',
           'Other'
+        ],
+        optionsFr: [
+          'CRM → tableur',
+          'Email → rapports / documents',
+          'Outils de projet → docs / présentations',
+          'Tableau de bord → consolidation de tableaux de bord',
+          'Autre'
         ]
       },
       {
         id: 'automation-comfort',
         text: 'How comfortable are you personally with building automations?',
+        textFr: 'À quel point êtes-vous à l\'aise personnellement avec la création d\'automatisations ?',
         description: 'Your technical comfort level helps us recommend the right balance of self-service vs. managed AI solutions.',
+        descriptionFr: 'Votre niveau de confort technique nous aide à recommander le bon équilibre entre solutions IA en libre-service vs. gérées.',
         type: 'radio',
         required: true,
         options: [
@@ -764,12 +816,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Can follow guides',
           'Need support',
           'Not my role'
+        ],
+        optionsFr: [
+          'Très à l\'aise – construction à partir de zéro',
+          'Capable de suivre des guides',
+          'Besoin de support',
+          'Ce n\'est pas mon rôle'
         ]
       },
       {
         id: 'automation-platforms',
         text: 'Which automation tools are you currently using?',
+        textFr: 'Quels outils d\'automatisation utilisez-vous actuellement ?',
         description: 'Existing automation experience indicates readiness for more advanced AI-powered workflow optimization.',
+        descriptionFr: 'L\'expérience d\'automatisation existante indique la préparation pour une optimisation de workflow plus avancée alimentée par l\'IA.',
         type: 'multiselect',
         required: true,
         options: [
@@ -778,12 +838,21 @@ export const assessmentSections: AssessmentSectionData[] = [
           'n8n',
           'None yet',
           'Other'
+        ],
+        optionsFr: [
+          'Zapier',
+          'Make (Integromat)',
+          'n8n',
+          'Aucun pour l\'instant',
+          'Autre'
         ]
       },
       {
         id: 'system-reliability',
         text: 'How often do your critical systems experience downtime or performance issues?',
+        textFr: 'À quelle fréquence vos systèmes critiques connaissent-ils des pannes ou des problèmes de performance ?',
         description: 'System reliability affects our AI deployment strategy and the level of redundancy we recommend.',
+        descriptionFr: 'La fiabilité du système affecte notre stratégie de déploiement IA et le niveau de redondance que nous recommandons.',
         type: 'radio',
         required: true,
         options: [
@@ -791,12 +860,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Occasional issues (monthly disruptions)',
           'Rare issues (quarterly minor problems)',
           'Highly reliable (minimal downtime, strong monitoring)'
+        ],
+        optionsFr: [
+          'Problèmes fréquents (problèmes hebdomadaires affectant la productivité)',
+          'Problèmes occasionnels (perturbations mensuelles)',
+          'Problèmes rares (problèmes mineurs trimestriels)',
+          'Très fiable (temps d\'arrêt minimal, surveillance solide)'
         ]
       },
       {
         id: 'gpu-compute-resources',
         text: 'Do you have access to dedicated GPU or high-performance compute resources for AI workloads?',
+        textFr: 'Avez-vous accès à des GPU dédiés ou des ressources de calcul haute performance pour les charges de travail IA ?',
         description: 'High-performance computing resources are essential for training and running advanced AI models efficiently.',
+        descriptionFr: 'Les ressources de calcul haute performance sont essentielles pour entraîner et exécuter efficacement des modèles IA avancés.',
         type: 'radio',
         required: true,
         options: [
@@ -804,12 +881,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Experimental/sandbox only',
           'Sufficient for current projects',
           'Scalable and ready for future growth'
+        ],
+        optionsFr: [
+          'Aucune',
+          'Expérimental/bac à sable uniquement',
+          'Suffisant pour les projets actuels',
+          'Évolutif et prêt pour la croissance future'
         ]
       },
       {
         id: 'resource-allocation-scaling',
         text: 'How are compute/network resources allocated and scaled for new AI workloads?',
+        textFr: 'Comment les ressources de calcul/réseau sont-elles allouées et mises à l\'échelle pour les nouvelles charges de travail IA ?',
         description: 'Resource allocation strategy affects how quickly you can deploy and scale AI solutions.',
+        descriptionFr: 'La stratégie d\'allocation des ressources affecte la rapidité avec laquelle vous pouvez déployer et mettre à l\'échelle les solutions IA.',
         type: 'radio',
         required: true,
         options: [
@@ -817,12 +902,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Automated for some workloads',
           'Mostly automated with some manual oversight',
           'Fully automated and demand-driven'
+        ],
+        optionsFr: [
+          'Manuel, ad hoc',
+          'Automatisé pour certaines charges de travail',
+          'Principalement automatisé avec surveillance manuelle',
+          'Entièrement automatisé et piloté par la demande'
         ]
       },
       {
         id: 'high-throughput-systems',
         text: 'Are your IT/network systems designed for high-throughput, low-latency AI data operations?',
+        textFr: 'Vos systèmes IT/réseau sont-ils conçus pour des opérations de données IA à haut débit et faible latence ?',
         description: 'Network and data infrastructure capabilities determine real-time AI application performance.',
+        descriptionFr: 'Les capacités d\'infrastructure réseau et de données déterminent les performances des applications IA en temps réel.',
         type: 'radio',
         required: true,
         options: [
@@ -830,12 +923,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Somewhat, only for pilot projects',
           'Designed for moderate scaling',
           'Fully designed for enterprise AI scale'
+        ],
+        optionsFr: [
+          'Pas du tout',
+          'Quelque peu, uniquement pour les projets pilotes',
+          'Conçu pour une mise à l\'échelle modérée',
+          'Entièrement conçu pour l\'échelle IA d\'entreprise'
         ]
       },
       {
         id: 'ai-specific-security',
         text: 'Do you have security measures specific to AI and ML workloads (beyond general IT security)?',
+        textFr: 'Avez-vous des mesures de sécurité spécifiques aux charges de travail IA et ML (au-delà de la sécurité IT générale) ?',
         description: 'AI workloads require specialized security considerations for models, data, and inference pipelines.',
+        descriptionFr: 'Les charges de travail IA nécessitent des considérations de sécurité spécialisées pour les modèles, les données et les pipelines d\'inférence.',
         type: 'radio',
         required: true,
         options: [
@@ -843,12 +944,20 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Under review/consideration',
           'Some controls in place',
           'Comprehensive and regularly updated'
+        ],
+        optionsFr: [
+          'Aucune',
+          'En cours d\'examen/considération',
+          'Quelques contrôles en place',
+          'Complet et régulièrement mis à jour'
         ]
       },
       {
         id: 'power-energy-impact',
         text: 'Have you assessed and planned for the power/energy impact of scaling AI infrastructure?',
+        textFr: 'Avez-vous évalué et planifié l\'impact énergétique de la mise à l\'échelle de l\'infrastructure IA ?',
         description: 'AI infrastructure can significantly impact energy consumption and operational costs.',
+        descriptionFr: 'L\'infrastructure IA peut considérablement impacter la consommation d\'énergie et les coûts opérationnels.',
         type: 'radio',
         required: true,
         options: [
@@ -856,6 +965,12 @@ export const assessmentSections: AssessmentSectionData[] = [
           'Limited awareness',
           'Under assessment/planning',
           'Fully planned and optimized'
+        ],
+        optionsFr: [
+          'Non considéré',
+          'Conscience limitée',
+          'En cours d\'évaluation/planification',
+          'Entièrement planifié et optimisé'
         ]
       }
     ]
