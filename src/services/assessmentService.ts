@@ -18,13 +18,22 @@ export const assessmentService = {
     userName?: string;
   }): Promise<{ success: boolean; submissionId?: string; error?: string }> {
     try {
+      console.log('Starting assessment submission...', { userEmail: data.userEmail, userName: data.userName });
+      
       // Get or create organization based on company name from assessment data
       let organizationId = null;
       const companyName = data.formData['metadata-respondent-info']?.['company-name'];
       
       if (companyName && typeof companyName === 'string' && companyName.trim()) {
+        console.log('Getting organization for company:', companyName.trim());
         const { data: orgId, error: orgError } = await supabase
           .rpc('get_or_create_organization_by_company_name', { company_name_input: companyName.trim() });
+        
+        if (orgError) {
+          console.error('Organization RPC error:', orgError);
+        } else {
+          console.log('Organization result:', orgId);
+        }
         
         if (!orgError && orgId) {
           organizationId = orgId;
@@ -32,6 +41,7 @@ export const assessmentService = {
       }
 
       // First, create the main submission
+      console.log('Creating submission with organizationId:', organizationId);
       const { data: submission, error: submissionError } = await supabase
         .from('assessment_submissions')
         .insert({
@@ -43,6 +53,8 @@ export const assessmentService = {
         })
         .select('id')
         .single();
+      
+      console.log('Submission result:', { submission, submissionError });
 
       if (submissionError) {
         console.error('Error creating submission:', submissionError);
